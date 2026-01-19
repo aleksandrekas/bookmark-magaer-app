@@ -7,14 +7,12 @@
 .loginContainer{
     max-width: 448px;
     min-width: 334px;
-    max-height: 543px;
-    min-height: 530px;
-    height: 100%;
     width: 100%;
     background-color: #ffffff;
     margin:1rem;
     border-radius: 10px;
     padding: 2rem  1.7rem;
+    overflow: hidden;
 }
 
 .bookmarkLogo{
@@ -71,7 +69,9 @@
     background-color: #014745;
     margin: 1.5rem 0;
 }
-
+.footer{
+    width: 100%;
+}
 
 .footerP{
     width: 100%;
@@ -88,3 +88,5 @@
     font-weight: 700;
     cursor: pointer;
 }
+
+
