@@ -1,8 +1,13 @@
 import "./linkItem.css"
+import { useState } from "react"
 
 
 
 export default function LinkItem(){
+    const[itemMenu,setMenu] = useState<boolean>(false)
+
+
+
     return (
         <div className="itemContainer">
             <header className="itemHeader">
@@ -13,7 +18,7 @@ export default function LinkItem(){
                     <h2>Frontend Mentor</h2>
                     <p>frontendmentor.io</p>
                 </div>
-                <button  className="itemBtn">
+                <button onClick={()=>{setMenu(!itemMenu)}}  className="itemBtn">
                     <img  src="/images/icon-menu-bookmark.svg" alt="" />
                 </button>
             </header>
@@ -50,9 +55,30 @@ export default function LinkItem(){
                 </ul>
                 <img src="/images/icon-pin.svg" alt="" />
             </footer>
-            {/* <div className="itemMenu">
-
-            </div> */}
+            <div className="itemMenu" style={{display: itemMenu ? 'block':'none'}}>
+                <ul className="itemMenuList">
+                    <li className="listItem">
+                        <img src="/images/icon-visit.svg" alt="visit_logo" />
+                        Visit
+                    </li>
+                    <li className="listItem">
+                        <img src="/images/icon-copy.svg" alt="copy_logo" />
+                        Copy URL
+                    </li>
+                    <li className="listItem">
+                        <img src="/images/icon-unpin.svg" alt="unpin_logo" />
+                        Unpin
+                    </li>
+                    <li className="listItem">
+                        <img src="/images/icon-edit.svg" alt="edit_icon" />
+                        Edit
+                    </li>
+                    <li className="listItem">
+                        <img src="/images/icon-archive.svg" alt="archive_logo" />
+                        Archive
+                    </li>
+                </ul>
+            </div>
         </div>
     )
 }
