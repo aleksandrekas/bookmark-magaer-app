@@ -7,6 +7,7 @@
     height: 78px;
     border: 1px solid #DDE9E7;
     background-color: #ffffff;
+    padding: 0 0.9rem;
 }
 
 .headerBtn{
@@ -35,12 +36,13 @@
 .searchbar{
     width: 100%;
     max-width: 320px;
-    min-width: 193px;
+    /* min-width: 193px; */
     height: 45px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    margin: 0 0.5rem ;
 }
 .searchLogo{
     position: absolute;
@@ -77,6 +79,7 @@
     color: #ffffff;
     font-size: 16px;
     cursor: pointer;
+    margin: 0 0.5rem 0 0;
 }
 
 .avatar{
@@ -84,6 +87,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    margin: 0 0.5rem 0 0;
 }
 
 .avatar img{
@@ -92,7 +96,16 @@
 }
 
 
-@media screen and (max-width:375px) {
+
+@media screen and (max-width:780px) {
+    .headerBtn{
+        display: block;
+    }
+}
+
+
+
+@media screen and (max-width:450px) {
     .headerContainer{
         justify-content: space-evenly;
         height: 68px;
@@ -111,7 +124,12 @@
     .addBookmark p{
         display: none;
     }
-    .headerBtn{
-        display: block;
+}
+
+
+
+@media screen and (max-width:345px) {
+    .searchbar{
+        width: 150px;
     }
 }
