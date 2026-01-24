@@ -1,8 +1,30 @@
 import './sideBar.css'
-
+type Tag = {
+  name: string;
+  count: number;
+};
 
 
 export default function SideBar(){
+    const tags : Tag[] = [
+        { name: 'AI', count: 0 },
+        { name: 'Community', count: 0 },
+        { name: 'Compability', count: 0 },
+        { name: 'CSS', count: 0 },
+        { name: 'Design', count: 0 },
+        { name: 'Framework', count: 0 },
+        { name: 'Git', count: 0 },
+        { name: 'HTML', count: 0 },
+        { name: 'JavaScript', count: 0 },
+        { name: 'Layout', count: 0 },
+        { name: 'Learning', count: 0 },
+        { name: 'Performance', count: 0 },
+        { name: 'Practice', count: 0 },
+        { name: 'Reference', count: 0 },
+        { name: 'Tips', count: 0 },
+        { name: 'Tools', count: 0 },
+        { name: 'Tutorial', count: 0 }
+    ];  
     return(
         <div className="sideContainer">
             <section className="sidebar">
@@ -15,6 +37,16 @@ export default function SideBar(){
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#4C5C59" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M3.334 6.664a2 2 0 0 1-.325-.03 1.67 1.67 0 0 1-1.31-1.309c-.032-.16-.032-.354-.032-.742 0-.387 0-.58.032-.741a1.67 1.67 0 0 1 1.31-1.31c.16-.032.354-.032.741-.032h12.5c.387 0 .581 0 .742.032a1.67 1.67 0 0 1 1.31 1.31c.032.16.032.354.032.741 0 .388 0 .581-.032.742a1.67 1.67 0 0 1-1.31 1.31 2 2 0 0 1-.325.029m-8.333 4.17h3.333M3.334 6.666h13.333V13.5c0 1.4 0 2.1-.273 2.635a2.5 2.5 0 0 1-1.092 1.092c-.535.273-1.235.273-2.635.273H7.334c-1.4 0-2.1 0-2.635-.273a2.5 2.5 0 0 1-1.093-1.092c-.272-.535-.272-1.235-.272-2.635z"/></svg>
                     Archive
                 </button>
+                <div className="sideTags">
+                    <p className="label">TAGS</p>
+                    {tags.map((item,index)=>(
+                        <div key={index} className='sideTag'>
+                            <input type="checkbox" name={item.name} id={item.name} />
+                            <label htmlFor={item.name}>{item.name}</label>
+                            <div className="count">{item.count}</div>
+                        </div>
+                    ))}
+                </div>
             </section> 
         </div>
     )

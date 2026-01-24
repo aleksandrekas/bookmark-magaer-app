@@ -2,11 +2,13 @@
 
 .itemContainer{
     width: 338px;
+    max-height: 272px;
     background-color: #FFFFFF;
     border-radius: 8px;
-    margin: 1rem;
+    margin: 0.5rem;
     padding: 0.9rem 0;
     position: relative;
+    display: inline-block;
 }
 
 
