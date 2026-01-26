@@ -8,7 +8,7 @@
     max-width: 448px;
     min-width: 334px;
     width: 100%;
-    background-color: #ffffff;
+    background-color: var(--bg-color-2);
     margin:1rem;
     border-radius: 10px;
     padding: 2rem  1.7rem;
@@ -31,7 +31,7 @@
 }
 
 .container p{
-    color: #4C5C59;
+    color: var(--txt-color-2);
     font-size: 0.8rem;
 }
 
@@ -45,7 +45,7 @@
 
 
 .formLabel{
-    color: #051513;
+    color: var(--txt-color);
     font-size: 0.8rem;
     margin: 0.7rem 0;
     font-weight: 600;
@@ -56,17 +56,17 @@
     height: 45px;
     width: 100%;
     border-radius: 8px;
-    border: 1px solid #899492 ;
+    border: 1px solid var(--border) ;
 }
 
 
 .formBtn{
     width: 100%;
     height: 45px;
-    color: #ffffff;
+    color: var(--txt-color-2);
     border-radius: 8px;
     border: none;
-    background-color: #014745;
+    background-color: var(--button);
     margin: 1.5rem 0;
 }
 .footer{
