@@ -3,6 +3,7 @@
 :root{
     --bg-color:#E8F0EF;
     --bg-color-2:#FFFFFF;
+    --bg-color-3:#DDE9E7;
     --txt-color:#051513;
     --txt-color-2:#4C5C59;
     --hover:#E8F0EF;
@@ -11,6 +12,7 @@
     --button-hover:#013C3B;
     --input-hover:#E8F0EF;
     --input:#FFFFFF;
+
 }
 
 
@@ -19,8 +21,9 @@
 [data-theme="dark"]{
     --bg-color:#001414;
     --bg-color-2:#001F1F;
+    --bg-color-3:#004241;
     --txt-color:#FFFFFF;
-    --txt-color:#B1B9B9;
+    --txt-color-2:#B1B9B9;
     --hover:#002E2D;
     --border:#004241;
     --button:#014745;

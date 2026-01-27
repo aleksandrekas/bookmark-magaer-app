@@ -85,11 +85,13 @@
     width: 21px;
     height: 21px;
     font-size: 12px;
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-2);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--txt-color);
+    border: 1px solid var(--border);
 }
 
 .sideTags{
