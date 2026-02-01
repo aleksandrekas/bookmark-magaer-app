@@ -12,7 +12,8 @@
     --button-hover:#013C3B;
     --input-hover:#E8F0EF;
     --input:#FFFFFF;
-
+    --checkbox-border:#899492;
+    --checkbox-bg:#bac2c1;
 }
 
 
@@ -30,6 +31,8 @@
     --button-hover:#013C3B;
     --input-hover:#004241;
     --input:#002E2D;
+    --checkbox-border:#00706E;
+    --checkbox-bg:#004241;
 }
 
 

@@ -17,10 +17,13 @@
     border: 1px solid var(--border);
     cursor: pointer;
     border-radius: 8px;
-    background-color: var(--button);
+    background-color: var(--bg-color-2);
     display: none;
 }
 
+.headerBtn svg path{
+    stroke: var(--txt-color);
+}
 
 .headerBtn:hover{
     background-color: var(--button-hover)
@@ -111,6 +114,7 @@
     right: 20px;
     top: 70px;
     color: var(--txt-color-2);
+    z-index: 10;
 }
 
 .profile h3{

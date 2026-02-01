@@ -29,7 +29,7 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
         <header className='headerContainer'>
             <div className="left">
                 <button onClick={()=>{sideBarSetter(true)}} className="headerBtn">
-                    <img src="/images/icon-menu-hamburger.svg" alt="hamburger" className="btnImg" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M2.5 10h15m-15-5h15m-15 10h15"/></svg>
                 </button>
                 <div className="searchbar">
                     <img src="/images/icon-search.svg" alt="search_logo" className="searchLogo" />
