@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
-import './sideBar.css'
+import React, { useEffect, useState,useRef } from 'react';
+import './sideBar.css';
+import { useClickaway } from '../../useClickaway';
+
+
 type Tag = {
   name: string;
   count: number;
@@ -8,8 +11,9 @@ type Tag = {
 
 export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:React.Dispatch<React.SetStateAction<boolean>>}){
     const [bookamrkSelection,setBookmark] = useState('home')
+    const ref = useRef<any>(null)
 
-
+    useClickaway(ref,()=>{stateSetter(false)})
 
 
     const tags : Tag[] = [
@@ -32,7 +36,7 @@ export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:R
         { name: 'Tutorial', count: 0 }
     ];  
     return(
-        <div className={state ? 'sideContainer sidebarActive' : 'sideContainer'}>
+        <div  className={state ? 'sideContainer sidebarActive' : 'sideContainer'} ref={ref}>
             <section className="sidebar">
                 <img src="/images/logo-light-theme.svg" alt="logo" className="sidebarLogo" />
                 <button  onClick={()=>{setBookmark('home')}} className={bookamrkSelection === 'home' ? "sidebarBtn sidebarBtnSelected " : 'sidebarBtn' }>

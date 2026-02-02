@@ -27,7 +27,7 @@ function App() {
         <ItemsHolder />
       </div>
       <div className={sidebarState ? 'sidebarOverlay overlayOn' : 'sidebarOverlay'}></div>
-      <AddBookmark />
+      {/* <AddBookmark /> */}
     </main>
   )
 }

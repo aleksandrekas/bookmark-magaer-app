@@ -1,17 +1,17 @@
 import './header.css'
-import { useEffect, useState } from 'react'
-
+import { useEffect, useRef, useState } from 'react'
+import { useClickaway } from '../../useClickaway'
 
 export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<React.SetStateAction<boolean>>}){
     const [profile,setProfile] = useState<boolean>(false)
     const [theme,setTheme] = useState<string>('light')
-
+    const profileRef = useRef<any>(null)
 
 
     function toggleTheme(){
         if(theme === 'light'){
             setTheme('dark')
-        }else{
+        }else{ 
             setTheme('light')
         }
     }
@@ -23,6 +23,10 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
             document.documentElement.setAttribute("data-theme",theme)
         }
     },[theme])
+
+    useClickaway(profileRef,()=>{setProfile(false)})
+
+
 
 
     return (
@@ -45,7 +49,7 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
                     <img className='avatarImg' src="/images/logos/image-avatar.webp" alt="" />
                 </div>
             </div>
-            <div className="profile" style={{display: profile ? 'block' : 'none'}}>
+            <div className="profile" style={{display: profile ? 'block' : 'none'}} ref={profileRef}>
                 <div className="account">
                     <img src="/images/logos/image-avatar.webp" alt="" />
                     <div className="info">

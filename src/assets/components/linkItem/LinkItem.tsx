@@ -1,12 +1,12 @@
 import "./linkItem.css"
-import { useState } from "react"
-
+import { useRef, useState } from "react"
+import { useClickaway } from "../../useClickaway"
 
 
 export default function LinkItem(){
     const[itemMenu,setMenu] = useState<boolean>(false)
-
-
+    const itemMenuRef = useRef<any>(null)
+    useClickaway(itemMenuRef,()=>{setMenu(false)})
 
     return (
         <div className="itemContainer">
@@ -55,7 +55,7 @@ export default function LinkItem(){
                 </ul>
                 <img src="/images/icon-pin.svg" alt="" />
             </footer>
-            <div className="itemMenu" style={{display: itemMenu ? 'block':'none'}}>
+            <div className="itemMenu" style={{display: itemMenu ? 'block':'none'}} ref={itemMenuRef}>
                 <ul className="itemMenuList">
                     <li className="listItem">
                         <img src="/images/icon-visit.svg" alt="visit_logo" />
