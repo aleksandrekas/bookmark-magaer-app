@@ -70,7 +70,6 @@ function SideTag({count,name}:{count:number,name:string}){
     const [checked,setChecked] = useState<boolean>(false)
 
     useEffect(()=>{
-        console.log(checked)
     },[checked])
 
     return(
