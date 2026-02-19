@@ -1,31 +1,65 @@
 import { useState, useEffect } from 'react'
 import './addBookmark.css'
 
-
+type Inputs ={
+    title:string
+    description:string
+    url:string
+    tags:string[] 
+    selectedTags:string[] 
+}
 
 
 
 export default function AddBookmark(){
-    const [values,setValues] = useState<any>({
-
+    const [values,setValues] = useState<Inputs>({
+        title:'',
+        description:'',
+        url:'',
+        tags:[],
+        selectedTags:[]
     })
-    const [tagsContent,setTags] = useState<Array<string>>([])
+
+    const[tag,setTag] = useState<string>('')
+
+
+
     const [letterCount,setCount] = useState<number>(0)
     const [showTags,setShow] = useState<boolean>(false)
 
-    const tags = ['AI','Community','Compability','CSS','Design','Framework','Git','HTML','JavaScript','Layout','Learning','Performance','Practice','Reference','Tips','Tools','Tutorial']
+    const tagsarray = ['AI','Community','Compability','CSS','Design','Framework','Git','HTML','JavaScript','Layout','Learning','Performance','Practice','Reference','Tips','Tools','Tutorial']
+
+
+    function handleInputs(e:React.ChangeEvent<HTMLInputElement>){
+        const {name,value} = e.target
+        setValues((prev)=>({
+            ...prev,
+            [name]:value
+        }))
+    }
 
 
     function handleTextarea(e:React.ChangeEvent<HTMLTextAreaElement>){
         setCount(e.target.value.length)
+        setValues((prev)=>({
+            ...prev,
+            description:e.target.value
+        }))
     }   
 
 
-    function handleTagsContent(){
-        
+    function handleTags(e:React.ChangeEvent<HTMLInputElement>){
+        const value = e.target.value
+        setTag(value)
+        const filteredTags = tagsarray.filter( item =>item.toLowerCase().includes(value.toLowerCase()));
+        console.log(filteredTags)
+        setValues((prev)=>({
+            ...prev,
+            tags:filteredTags
+        }))
     }
 
-
+    console.log(values.tags)
 
 
 
@@ -39,19 +73,26 @@ export default function AddBookmark(){
                 <p>Save a link with details to keep your collection organized.</p>
                 <form  className="addForm">
                     <label htmlFor="title">Title *</label>
-                    <input type="text" id='title'/>
+                    <input type="text" id='title' name='title' onChange={handleInputs} value={values.title} />
                     <label htmlFor="description">Description *</label>
-                    <textarea onChange={handleTextarea} id="description"></textarea>
+                    <textarea onChange={handleTextarea} id="description" name='description' value={values.description} ></textarea>
                     <div className="textareaCount">
                         {letterCount}/280
                     </div>
                     <label htmlFor="url">Website URL *</label>
-                    <input type="text" id='url'/>
-                    <div className="tags">
+                    <input type="text" id='url' name='url' onChange={handleInputs} value={values.url} />
+                    <div className="tag">
                         <label htmlFor="tags">Tags *</label>
-                        <input type="text" id='tags' onFocus={()=>{setShow(true)}} onBlur={()=>{setShow(false)}} />
-                        <div className="tagsContainer" style={{display:showTags? "block":"none"}} >
+                        <input type="text" id='tags' name='tags' onChange={handleTags} value={tag} onFocus={()=>{setShow(true)}} onBlur={()=>{setShow(false)}} />
+                        <div className="selectedTags">
 
+                        </div>
+                        <div className="tagsContainer" style={{display:showTags? "block":"none"}} >
+                            {
+                                values.tags.map((item)=>(
+                                    <div className="tagDiv">{item}</div>
+                                ))
+                            }
                         </div>
                     </div>
                     <div className="formButtons">

@@ -130,7 +130,7 @@
 }
 
 
-.tags{
+.tag{
     width: 100%;
     position: relative;
 }
@@ -138,8 +138,7 @@
 .tagsContainer{
     position: absolute;
     top: 70px;
-    max-height: 200px;
-    height: 300px;
+    max-height: 100px;
     width: 100%;
     background-color: var(--bg-color-2);
     border-radius: 8px;
@@ -150,4 +149,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.tagDiv{
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
 }
