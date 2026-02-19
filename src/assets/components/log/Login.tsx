@@ -1,5 +1,6 @@
 import './login.css'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
 
 
 export default function Login(){
@@ -24,6 +25,8 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
         password:'',
     })
 
+    const navigate = useNavigate()
+
     function handleForm(e:React.ChangeEvent<HTMLInputElement>){
         e.preventDefault()
         const {name,value} = e.currentTarget
@@ -47,7 +50,14 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
         });
 
         const result = await response.json();
-        console.log(result.token);
+        if(result.token){
+            try{
+                localStorage.setItem("token",result.token) 
+                navigate("/profile")
+            }catch(err){
+                console.log(err)
+            }
+        }
     }
 
 

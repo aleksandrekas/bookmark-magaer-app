@@ -10,7 +10,6 @@ export default function itemsHolder(){
         function adjustHeight(){
             const rect = element.getBoundingClientRect()
             const availableHeight = window.innerHeight - rect.top;
-
             element.style.height = `${availableHeight}px`;           
         }
 

@@ -59,6 +59,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: start;
+    position: relative;
 }
 
 .addForm input{
@@ -126,4 +127,27 @@
     background-color: var(--button);
     color: #FFFFFF;
     border: none;
+}
+
+
+.tags{
+    width: 100%;
+    position: relative;
+}
+
+.tagsContainer{
+    position: absolute;
+    top: 70px;
+    max-height: 200px;
+    height: 300px;
+    width: 100%;
+    background-color: var(--bg-color-2);
+    border-radius: 8px;
+    border:1px solid var(--border);
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

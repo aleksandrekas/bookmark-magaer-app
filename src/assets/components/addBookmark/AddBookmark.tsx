@@ -1,16 +1,33 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './addBookmark.css'
 
 
 
-export default function AddBookmark(){
 
-    const[letterCount,setCount] = useState<number>(0)
+
+export default function AddBookmark(){
+    const [values,setValues] = useState<any>({
+
+    })
+    const [tagsContent,setTags] = useState<Array<string>>([])
+    const [letterCount,setCount] = useState<number>(0)
+    const [showTags,setShow] = useState<boolean>(false)
+
+    const tags = ['AI','Community','Compability','CSS','Design','Framework','Git','HTML','JavaScript','Layout','Learning','Performance','Practice','Reference','Tips','Tools','Tutorial']
 
 
     function handleTextarea(e:React.ChangeEvent<HTMLTextAreaElement>){
         setCount(e.target.value.length)
     }   
+
+
+    function handleTagsContent(){
+        
+    }
+
+
+
+
 
     return (
         <div className="addOverlay">
@@ -30,8 +47,13 @@ export default function AddBookmark(){
                     </div>
                     <label htmlFor="url">Website URL *</label>
                     <input type="text" id='url'/>
-                    <label htmlFor="tags">Tags *</label>
-                    <input type="text" id='tags'/>
+                    <div className="tags">
+                        <label htmlFor="tags">Tags *</label>
+                        <input type="text" id='tags' onFocus={()=>{setShow(true)}} onBlur={()=>{setShow(false)}} />
+                        <div className="tagsContainer" style={{display:showTags? "block":"none"}} >
+
+                        </div>
+                    </div>
                     <div className="formButtons">
                         <button>Cancel</button>
                         <button id='addButton'>Add Bookmark</button>

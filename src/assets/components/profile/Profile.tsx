@@ -7,6 +7,11 @@ import Filter from '../filter/Filter';
 
 
 export default function Profile(){
+
+
+
+
+
     const [sidebarState,setSidebar] = useState(false)
     return(
         <div className="profileContainer">

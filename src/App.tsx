@@ -1,7 +1,8 @@
+
 import Login from "./assets/components/log/Login"
 import Profile from "./assets/components/profile/Profile";
-import { useState } from "react";
-import { Route,Routes } from "react-router";
+import { Route,Routes,useNavigate } from "react-router";
+import AddBookmark from "./assets/components/addBookmark/AddBookmark";
 
 
 
@@ -10,13 +11,13 @@ import { Route,Routes } from "react-router";
 
 function App() {
 
-
   return (
     <main>
-      <Routes>
+      {/* <Routes>
         <Route index  element = {<Login />} />
         <Route path="/profile" element = {<Profile />} />
-      </Routes>
+      </Routes> */}
+      <AddBookmark />
     </main>
   )
 }
