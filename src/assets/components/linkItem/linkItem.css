@@ -84,13 +84,13 @@
 
 
 
-.tags{
+.linkItemTags{
     display: flex;
 }
 
 
 
-.tag{
+.tags{
     background-color: var(--hover);
     border-radius: 4px;
     color: var(--txt-color-2);

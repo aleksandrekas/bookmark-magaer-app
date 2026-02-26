@@ -1,6 +1,6 @@
 import "./linkItem.css"
 import { useRef, useState } from "react"
-import { useClickaway } from "../../useClickaway"
+import { useClickaway } from "../utils/useClickaway"
 
 
 export default function LinkItem(){
@@ -26,14 +26,14 @@ export default function LinkItem(){
                 <p className="descriptionP">
                     Improve your front-end coding skills by building real projects. Solve real-world HTML, CSS and JavaScript challenges whilst working to professional designs.
                 </p>
-                <div className="tags">
-                    <div className="tag">
+                <div className="linkItemTags">
+                    <div className="tags">
                         Practice
                     </div>
-                    <div className="tag">
+                    <div className="tags">
                         Practice
                     </div>
-                    <div className="tag">
+                    <div className="tags">
                         Practice
                     </div>
                 </div>

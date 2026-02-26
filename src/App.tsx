@@ -13,11 +13,11 @@ function App() {
 
   return (
     <main>
-      {/* <Routes>
+      <Routes>
         <Route index  element = {<Login />} />
         <Route path="/profile" element = {<Profile />} />
-      </Routes> */}
-      <AddBookmark />
+      </Routes>
+      {/* <AddBookmark /> */}
     </main>
   )
 }

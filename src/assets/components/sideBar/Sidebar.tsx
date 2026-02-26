@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useRef } from 'react';
 import './sideBar.css';
-import { useClickaway } from '../../useClickaway';
+import { useClickaway } from '../utils/useClickaway';
 
 
 type Tag = {
@@ -10,11 +10,11 @@ type Tag = {
 
 
 export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:React.Dispatch<React.SetStateAction<boolean>>}){
-    const [bookamrkSelection,setBookmark] = useState('home')
+    const [bookamrkSelection,setBookmark] = useState<string>('home')
     const ref = useRef<any>(null)
 
     useClickaway(ref,()=>{stateSetter(false)})
-
+    
 
     const tags : Tag[] = [
         { name: 'AI', count: 0 },
@@ -35,6 +35,13 @@ export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:R
         { name: 'Tools', count: 0 },
         { name: 'Tutorial', count: 0 }
     ];  
+
+
+
+
+
+
+
     return(
         <div  className={state ? 'sideContainer sidebarActive' : 'sideContainer'} ref={ref}>
             <section className="sidebar">

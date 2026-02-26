@@ -1,12 +1,14 @@
 import './header.css'
-import { useEffect, useRef, useState } from 'react'
-import { useClickaway } from '../../useClickaway'
+import { useEffect, useRef, useState,useContext } from 'react'
+import { useClickaway } from '../utils/useClickaway'
+import { Context } from '../utils/ContextProvider'
+
 
 export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<React.SetStateAction<boolean>>}){
     const [profile,setProfile] = useState<boolean>(false)
     const [theme,setTheme] = useState<string>('light')
     const profileRef = useRef<any>(null)
-
+    const context = useContext(Context)
 
     function toggleTheme(){
         if(theme === 'light'){
@@ -19,6 +21,7 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
     useEffect(()=>{
         if(theme === 'light'){
             document.documentElement.removeAttribute("data-theme")
+            
         }else{
             document.documentElement.setAttribute("data-theme",theme)
         }
@@ -41,11 +44,11 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
                 </div>
             </div>
             <div className="right">
-                <button className='addBookmark'>
+                <button onClick={()=>{context?.setBookmarkWindow(true)}} className='addBookmark'>
                     <img src="/images/icon-add.svg" alt="" className="addlogo" />
                     <p>Add Bookmark</p>
                 </button>
-                <div onClick={()=>{setProfile(!profile )}} className="avatar">
+                <div onClick={()=>{setProfile(true)}} className="avatar">
                     <img className='avatarImg' src="/images/logos/image-avatar.webp" alt="" />
                 </div>
             </div>
