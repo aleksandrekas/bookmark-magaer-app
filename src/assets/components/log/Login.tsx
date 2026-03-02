@@ -47,6 +47,7 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
             email: data.email,
             password: data.password,
             }),
+            credentials:"include"
         });
 
         const result = await response.json();

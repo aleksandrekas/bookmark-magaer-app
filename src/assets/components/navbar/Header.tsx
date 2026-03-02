@@ -9,6 +9,10 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
     const [theme,setTheme] = useState<string>('light')
     const profileRef = useRef<any>(null)
     const context = useContext(Context)
+    const profileButtonRef = useRef<any>(null)
+
+    
+
 
     function toggleTheme(){
         if(theme === 'light'){
@@ -27,9 +31,9 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
         }
     },[theme])
 
-    useClickaway(profileRef,()=>{setProfile(false)})
+    useClickaway(profileRef,()=>{setProfile(false)},profileButtonRef)
 
-
+ 
 
 
     return (
@@ -48,7 +52,7 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
                     <img src="/images/icon-add.svg" alt="" className="addlogo" />
                     <p>Add Bookmark</p>
                 </button>
-                <div onClick={()=>{setProfile(true)}} className="avatar">
+                <div onClick={()=>{setProfile(!profile)}} ref={profileButtonRef} className="avatar">
                     <img className='avatarImg' src="/images/logos/image-avatar.webp" alt="" />
                 </div>
             </div>
@@ -56,8 +60,8 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
                 <div className="account">
                     <img src="/images/logos/image-avatar.webp" alt="" />
                     <div className="info">
-                        <h4>Emily Carter</h4>
-                        <p>emily010@gmail.com</p>
+                        <h4>{context?.user.userName}</h4>
+                        <p>{context?.user.userEmail}</p>
                     </div>
                 </div>
                 <div className="theme">

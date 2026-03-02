@@ -6,7 +6,8 @@ import { useClickaway } from "../utils/useClickaway"
 export default function LinkItem(){
     const[itemMenu,setMenu] = useState<boolean>(false)
     const itemMenuRef = useRef<any>(null)
-    useClickaway(itemMenuRef,()=>{setMenu(false)})
+    const itemBtnRef = useRef<any>(null)
+    useClickaway(itemMenuRef,()=>{setMenu(false)},itemBtnRef)
 
     return (
         <div className="itemContainer">
@@ -18,7 +19,7 @@ export default function LinkItem(){
                     <h2>Frontend Mentor</h2>
                     <p>frontendmentor.io</p>
                 </div>
-                <button onClick={()=>{setMenu(!itemMenu)}}  className="itemBtn">
+                <button onClick={()=>{setMenu(!itemMenu)}} ref={itemBtnRef}  className="itemBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M10 10.833a.833.833 0 1 0 0-1.666.833.833 0 0 0 0 1.666M10 5a.833.833 0 1 0 0-1.667A.833.833 0 0 0 10 5M10 16.667A.833.833 0 1 0 10 15a.833.833 0 0 0 0 1.667"/></svg>
                 </button>
             </header>
