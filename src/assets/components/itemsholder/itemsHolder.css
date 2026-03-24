@@ -6,3 +6,12 @@
     flex-wrap: wrap;
     padding: 1rem;
 }
+
+.itemHolder::-webkit-scrollbar{
+    width: 5px;
+}
+
+
+.itemHolder::-webkit-scrollbar-thumb{
+    background: var(--button-hover);
+}

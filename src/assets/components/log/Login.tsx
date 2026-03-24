@@ -3,6 +3,13 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 
+type login={
+    email: string
+    password:string
+}
+
+
+
 export default function Login(){
     const [selected,setSelected] = useState('login')
     return (
@@ -20,9 +27,14 @@ export default function Login(){
 
 
 function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAction<string>>}){
-    const [data,setData] = useState({
+    const [data,setData] = useState<login>({
         email:'',
         password:'',
+    })
+
+    const [errors,setErrors] = useState({
+        email:false,
+        password:false
     })
 
     const navigate = useNavigate()
@@ -36,8 +48,27 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
         }))
     }
 
+
+    function validate(){
+        const emailRregex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const newErrors = {
+            email: data.email === '' || !emailRregex.test(data.email),
+            password: data.password === ''
+        }
+        setErrors(newErrors)
+        return !newErrors.email && !newErrors.password;
+    }
+
+
+
+
+
     async function logIn(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        const isValid = validate()
+
+        if(!isValid) return 
+        
         const response = await fetch('http://localhost:3000/api/login', {
             method: 'POST',
             headers: {
@@ -58,8 +89,10 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
             }catch(err){
                 console.log(err)
             }
-        }
+        }   
     }
+
+
 
 
 
@@ -79,6 +112,7 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
                 name='email' 
                 value={data.email}
                 />
+                <span style={{visibility: errors.email ? "visible" : "hidden"}} className="errorspan">* wrong email</span>
                 <label htmlFor="password" className='formLabel'>Password</label>
                 <input 
                 onChange={handleForm} 
@@ -87,7 +121,8 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
                 className="formInput" 
                 name='password' 
                 value={data.password}
-                        />
+                />
+                <span style={{visibility: errors.password ? "visible" : "hidden"}} className='errorspan'>* password field is empty</span>
                 <button  className='formBtn'>Log in</button>
             </form>
             <footer className="footer">
@@ -122,7 +157,7 @@ function Create({state,setter}:{state:string,setter:React.Dispatch<React.SetStat
 
     async function signIn(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        const response = await fetch('http://localhost:3000/api/users', {
+        const response = await fetch('http://localhost:3000/api/sign', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

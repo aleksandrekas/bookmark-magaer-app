@@ -1,5 +1,5 @@
-import React, { useState,useContext} from 'react'
-import './addBookmark.css'
+import React, { useState,useContext, useEffect} from 'react'
+import './edit.css'
 import { Context } from '../utils/ContextProvider'
 import fetchWithAuth from '../utils/functions'
 
@@ -11,6 +11,7 @@ type Inputs ={
     selectedTags:string[] 
 }
 
+
 type Errors ={
     title:boolean
     description:boolean
@@ -19,7 +20,11 @@ type Errors ={
 } 
 
 
-export default function AddBookmark(){
+export default function EditBookmark(){
+    const context = useContext(Context)    
+    const {title,description,url,tags,id} = context!.editTargetBookmark
+
+
     const [values,setValues] = useState<Inputs>({
         title:'',
         description:'',
@@ -28,7 +33,6 @@ export default function AddBookmark(){
         selectedTags:[]
     })
 
-
     const [errors ,setErrors] = useState<Errors>({
         title:false,
         description:false,
@@ -36,8 +40,8 @@ export default function AddBookmark(){
         tags:false
     })
 
+
     const[tag,setTag] = useState<string>('')
-    const context = useContext(Context)
 
 
     const [letterCount,setCount] = useState<number>(0)
@@ -46,7 +50,13 @@ export default function AddBookmark(){
     const tagsarray = ['AI','Community','Compability','CSS','Design','Framework','Git','HTML','JavaScript','Layout','Learning','Performance','Practice','Reference','Tips','Tools','Tutorial']
 
 
-
+    function handleInputs(e:React.ChangeEvent<HTMLInputElement>){
+        const {name,value} = e.target
+        setValues((prev)=>({
+            ...prev,
+            [name]:value
+        }))
+    }
 
     function validate(){
         const newErrors={
@@ -64,18 +74,6 @@ export default function AddBookmark(){
 
 
 
-
-
-
-
-
-    function handleInputs(e:React.ChangeEvent<HTMLInputElement>){
-        const {name,value} = e.target
-        setValues((prev)=>({
-            ...prev,
-            [name]:value
-        }))
-    }
 
     function getCurrentDate(){
         return new Date().toISOString()
@@ -125,29 +123,27 @@ export default function AddBookmark(){
 
     async function addbookmark(e:React.FormEvent){
         e.preventDefault()
-        
         const isVlaid = validate()
 
         if(!isVlaid) return 
 
+
         const {title,url,description,selectedTags} = values;
         try{
-            const addRequest = await  fetchWithAuth('http://localhost:3000/api/addBookmark',{
-                method:"POST",
+            const addRequest = await  fetchWithAuth('http://localhost:3000/api/editBookmark',{
+                method:"PATCH",
                 headers:{
                     'Content-Type':'application/json'
                 },
                 body:JSON.stringify({
                     title:title,
+                    id:id,
                     url:url,
                     description:description,
                     selectedtags:selectedTags,
-                    archived:false,
-                    created:getCurrentDate(),
-                    visitCount:0,
-                    lastVisit:"never"
                 })
             })
+            console.log(addRequest)
             context?.setRefresh(!context.refresh)
         }catch(err){
             console.log("gela is awake")
@@ -155,35 +151,41 @@ export default function AddBookmark(){
         }
     }   
 
+    console.log(values)
 
+
+    useEffect(()=>{
+        setValues({
+        title:title,
+        description:description,
+        url:url,
+        tags:tags,
+        selectedTags:tags
+    })
+    },[context?.editTargetBookmark])
 
 
     return (
-        <div className="addOverlay" style={{display: context?.addBookmarkWindow ? "flex":"none"}}>
+        <div className="addOverlay" style={{display: context?.editWindow ? "flex":"none"}}>
             <div className="add">
-                <button className="closeBtn" onClick={()=>{context?.setBookmarkWindow(false)}}>
+                <button className="closeBtn" onClick={()=>{context?.setEdit(false)}}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M15 5 5 15M5 5l10 10"/></svg>
                 </button>
-                <h1>Add a Bookmark</h1>
-                <p>Save a link with details to keep your collection organized.</p>
-                <form  className="addForm" onSubmit={addbookmark} autoComplete='off'>
+                <h1>Edit a Bookmark</h1>
+                <p>Update your saved link details — change the title, description, URL, or tags anytime.</p>
+                <form  className="addForm" onSubmit={addbookmark}>
                     <label htmlFor="title">Title *</label>
                     <input type="text" id='title' name='title' onChange={handleInputs} value={values.title} />
-                    <span style={{visibility: errors.title ? "visible" : "hidden"}} className="errorspan">* enter the title</span>
                     <label htmlFor="description">Description *</label>
                     <textarea onChange={handleTextarea} id="description" name='description' value={values.description} ></textarea>
-                    <span style={{visibility: errors.description ? "visible" : "hidden"}} className="errorspan">* enter description</span>
                     <div className="textareaCount">
                         {letterCount}/280
                     </div>
                     <label htmlFor="url">Website URL *</label>
                     <input type="text" id='url' name='url' onChange={handleInputs} value={values.url} />
-                    <span style={{visibility: errors.url ? "visible" : "hidden"}} className='errorspan'>* enter url</span>
-                    <span className="errorspan"></span>
                     <div className="tag">
                         <label className='tagLabel' htmlFor="tags">Tags *</label>
-                        <input type="text" id='tags' name='tags' onChange={handleTags} value={tag} onFocus={()=>{setShow(true)}}  onBlur={()=>{setShow(false)}} />  
-                        <span style={{visibility: errors.tags ? "visible" : "hidden"}} className="errorspan">* select at least 1 tag</span>  
+                        <input type="text" id='tags' name='tags' onChange={handleTags} value={tag}  onBlur={()=>{setShow(false)}} />
                         <div className="selectedTags">
                             {values.selectedTags.map((tag,index)=>(
                                 <div onClick={()=>{removeTag(tag)}} key={index} className="selectedTag">{tag}</div>
@@ -199,7 +201,7 @@ export default function AddBookmark(){
                     </div>
                     <div className="formButtons">
                         <button type='button' >Cancel</button>
-                        <button id='addButton'>Add Bookmark</button>
+                        <button id='addButton'>Edit Bookmark</button>
                     </div>
                 </form>
             </div>
