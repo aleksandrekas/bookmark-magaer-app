@@ -14,6 +14,10 @@ type ContextType = {
   setRefresh:Dispatch<SetStateAction<boolean>>
   setEditBookmark:Dispatch<SetStateAction<bookmarkType>>
   editTargetBookmark:bookmarkType
+  archive:ArchiveType
+  setArchive:Dispatch<SetStateAction<ArchiveType>>
+  setHolder:Dispatch<SetStateAction<string>>
+  itemsHolder:string
 }
 
 type UserType = {
@@ -35,6 +39,10 @@ type bookmarkType = {
     tags:string[]
 }
 
+type ArchiveType = {
+    open:boolean
+    bookmarkId:number | null
+}
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -62,8 +70,14 @@ export default function ContextProvider({ children }:{ children:ReactNode }){
     })
     const [bookmarks,setBookmarks] = useState<bookmarkType[]>([])
     const [refresh,setRefresh] = useState<boolean>(true)
+    const [archive,setArchive] = useState<ArchiveType>({
+        open:false,
+        bookmarkId:null
+
+    })
+    const [itemsHolder,setHolder] = useState('home')
     return (
-        <Context.Provider value={{addBookmarkWindow,setBookmarkWindow,user,setUser,bookmarks,setBookmarks,refresh,setRefresh,editTargetBookmark,setEditBookmark,editWindow,setEdit}}>
+        <Context.Provider value={{addBookmarkWindow,setBookmarkWindow,user,setUser,bookmarks,setBookmarks,refresh,setRefresh,editTargetBookmark,setEditBookmark,editWindow,setEdit,archive,setArchive,itemsHolder,setHolder}}>
             {children}
         </Context.Provider>
     )

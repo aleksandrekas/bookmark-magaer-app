@@ -1,10 +1,38 @@
 import './itemsHolder.css';
 import LinkItem from '../linkItem/LinkItem';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useContext } from 'react';
 import { Context } from '../utils/ContextProvider';
 
+
+type BookmarkType = {
+    archived:number,
+    created:string,
+    description:string,
+    id:number,
+    lastVisit:string ,
+    title:string,
+    url:string,
+    userId:number,
+    visitCount:number,
+    tags:string[]
+}
+
+type BookmarkStateType = {
+    bookmarks:BookmarkType[]
+    archived:BookmarkType[]
+}
+
+
+
+
+
 export default function itemsHolder(){
+    const [bookmark,setBookmarks] = useState<BookmarkStateType>({
+        bookmarks:[],
+        archived:[]
+    })
+
     const container = useRef<any>(null)
     const context = useContext(Context)
     useEffect(()=>{
@@ -22,19 +50,43 @@ export default function itemsHolder(){
         }
     },[])
     
+    useEffect(()=>{
+        let activeBookmarks = context?.bookmarks.filter((item) => item.archived === 0) ?? []
+        let archivedBookmarks = context?.bookmarks.filter((item) => item.archived === 1) ?? []
+
+        setBookmarks({
+            bookmarks:activeBookmarks,
+            archived:archivedBookmarks
+        })
+
+
+    
+
+    },[context?.bookmarks])
         
 
     return(
-        <div className="itemHolder" ref={container}>
-            {context?.bookmarks.length === 0 ? (
-                <div className="noBookmarksDiv">No bookmarks</div>
-            ):(
-                context?.bookmarks.map((item,index)=>(
-                    <LinkItem bookmark={item} key={index}/>
-                )) 
-            )}
+        <>
+            <div className="itemHolder" style={{display: context?.itemsHolder === 'home' ? 'block': 'none'}}  ref={container}>
+                {bookmark.bookmarks.length === 0 ? (
+                    <div className="noBookmarksDiv">No bookmarks</div>
+                ):(
+                    bookmark.bookmarks.map((item,index)=>(
+                        <LinkItem bookmark={item} key={index}/>
+                    )) 
+                )}
 
-        </div>
+            </div>
+            <div className="itemHolder" style={{display: context?.itemsHolder === 'archived' ? 'block': 'none'}}   ref={container}>
+                {bookmark.archived.length === 0 ? (
+                    <div className="noBookmarksDiv">No archived bookmarks</div>
+                ):(
+                    bookmark.archived.map((item,index)=>(
+                        <LinkItem bookmark={item} key={index}/>
+                    )) 
+                )}
+            </div>
+        </>
     )
 }
 

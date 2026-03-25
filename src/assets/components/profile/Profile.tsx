@@ -9,7 +9,7 @@ import AddBookmark from '../addBookmark/AddBookmark'
 import { Context } from "../utils/ContextProvider"
 import fetchWithAuth from "../utils/functions"
 import { useNavigate } from "react-router"
-
+import Archive from "../windows/Archive"
 
 export default function Profile(){
     const context = useContext(Context)
@@ -58,6 +58,7 @@ export default function Profile(){
                 </div>
                 <AddBookmark />
                 <EditBookmark />
+                <Archive />
         </div>
     )
 }

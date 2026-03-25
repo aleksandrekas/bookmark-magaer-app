@@ -148,7 +148,7 @@
 .itemMenu{
     position: absolute;
     width: 200px;
-    height: 212px;
+    /* height: 212px; */
     background-color: var(--bg-color-2);
     border-radius: 8px;
     border: 1px solid var(--border);
@@ -184,13 +184,20 @@
 }
 
 
-.listItem img{
+.listItem svg{
     width: 16px;
     height: 16px;
     margin: 0 0.4rem 0 0;
 }
 
+.listItem svg path{
+    stroke: var(--txt-color-2);
+}
 
+
+.archiveStatus{
+    margin: 0 0.2rem 0 0;
+}
 
 
 
