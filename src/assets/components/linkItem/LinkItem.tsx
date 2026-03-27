@@ -21,6 +21,7 @@ type bookmarkType = {
 
 export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
     const[itemMenu,setMenu] = useState<boolean>(false)
+    const [clipboard,setClipboard] = useState<boolean>(false)
     const itemMenuRef = useRef<any>(null)
     const itemBtnRef = useRef<any>(null)
     useClickaway(itemMenuRef,()=>{setMenu(false)},itemBtnRef)
@@ -81,15 +82,29 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
     }
 
 
-    
 
-    function handleArchive(){
-        context?.setArchive({
+    function handleDelete(){
+        context?.setDelete({
             open:true,
             bookmarkId:id
         })
     }
+    
 
+
+    function handleArchive(){
+        context?.setArchive({
+            open:true,
+            bookmarkId:id,
+            archived:archived
+        })
+    }
+
+
+    function copyText(){
+        navigator.clipboard.writeText(url)
+        setClipboard(true)
+    }
 
 
 
@@ -149,8 +164,14 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M17.5 7.5v-5m0 0h-5m5 0-6.667 6.667m-2.5-5H6.5c-1.4 0-2.1 0-2.635.272a2.5 2.5 0 0 0-1.093 1.093C2.5 6.066 2.5 6.767 2.5 8.167V13.5c0 1.4 0 2.1.272 2.635a2.5 2.5 0 0 0 1.093 1.092C4.4 17.5 5.1 17.5 6.5 17.5h5.333c1.4 0 2.1 0 2.635-.273a2.5 2.5 0 0 0 1.093-1.092c.272-.535.272-1.235.272-2.635v-1.833"/></svg>
                         Visit
                     </a>
-                    <li className="listItem">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><g clip-path="url(#a)"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4.167 12.5c-.777 0-1.165 0-1.471-.127a1.67 1.67 0 0 1-.902-.902c-.127-.306-.127-.694-.127-1.471V4.333c0-.933 0-1.4.182-1.756.16-.314.414-.569.728-.729.357-.181.823-.181 1.757-.181H10c.777 0 1.165 0 1.472.127.408.169.732.493.902.902.126.306.126.694.126 1.47m-2.333 14.167h5.5c.933 0 1.4 0 1.757-.181.313-.16.568-.415.728-.729.182-.356.182-.823.182-1.756v-5.5c0-.934 0-1.4-.182-1.757a1.67 1.67 0 0 0-.728-.728C17.067 7.5 16.6 7.5 15.667 7.5h-5.5c-.933 0-1.4 0-1.757.182-.313.16-.568.414-.728.728-.182.357-.182.823-.182 1.757v5.5c0 .933 0 1.4.182 1.756.16.314.415.569.728.729.357.181.824.181 1.757.181"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h20v20H0z"/></clipPath></defs></svg>
+                    <li className="listItem" onClick={copyText}>
+                        {clipboard ? 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M16.666 5 7.5 14.167 3.333 10"/></svg>
+                            :
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><g clip-path="url(#a)"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4.167 12.5c-.777 0-1.165 0-1.471-.127a1.67 1.67 0 0 1-.902-.902c-.127-.306-.127-.694-.127-1.471V4.333c0-.933 0-1.4.182-1.756.16-.314.414-.569.728-.729.357-.181.823-.181 1.757-.181H10c.777 0 1.165 0 1.472.127.408.169.732.493.902.902.126.306.126.694.126 1.47m-2.333 14.167h5.5c.933 0 1.4 0 1.757-.181.313-.16.568-.415.728-.729.182-.356.182-.823.182-1.756v-5.5c0-.934 0-1.4-.182-1.757a1.67 1.67 0 0 0-.728-.728C17.067 7.5 16.6 7.5 15.667 7.5h-5.5c-.933 0-1.4 0-1.757.182-.313.16-.568.414-.728.728-.182.357-.182.823-.182 1.757v5.5c0 .933 0 1.4.182 1.756.16.314.415.569.728.729.357.181.824.181 1.757.181"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h20v20H0z"/></clipPath></defs></svg>
+
+
+                        }
                         Copy URL
                     </li>
                     <li className="listItem">
@@ -171,15 +192,21 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M17.5 7.5v-5m0 0h-5m5 0-6.667 6.667m-2.5-5H6.5c-1.4 0-2.1 0-2.635.272a2.5 2.5 0 0 0-1.093 1.093C2.5 6.066 2.5 6.767 2.5 8.167V13.5c0 1.4 0 2.1.272 2.635a2.5 2.5 0 0 0 1.093 1.092C4.4 17.5 5.1 17.5 6.5 17.5h5.333c1.4 0 2.1 0 2.635-.273a2.5 2.5 0 0 0 1.093-1.092c.272-.535.272-1.235.272-2.635v-1.833"/></svg>
                         Visit
                     </a>
-                    <li className="listItem">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><g clip-path="url(#a)"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4.167 12.5c-.777 0-1.165 0-1.471-.127a1.67 1.67 0 0 1-.902-.902c-.127-.306-.127-.694-.127-1.471V4.333c0-.933 0-1.4.182-1.756.16-.314.414-.569.728-.729.357-.181.823-.181 1.757-.181H10c.777 0 1.165 0 1.472.127.408.169.732.493.902.902.126.306.126.694.126 1.47m-2.333 14.167h5.5c.933 0 1.4 0 1.757-.181.313-.16.568-.415.728-.729.182-.356.182-.823.182-1.756v-5.5c0-.934 0-1.4-.182-1.757a1.67 1.67 0 0 0-.728-.728C17.067 7.5 16.6 7.5 15.667 7.5h-5.5c-.933 0-1.4 0-1.757.182-.313.16-.568.414-.728.728-.182.357-.182.823-.182 1.757v5.5c0 .933 0 1.4.182 1.756.16.314.415.569.728.729.357.181.824.181 1.757.181"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h20v20H0z"/></clipPath></defs></svg>
+                    <li className="listItem" onClick={copyText}>
+                        {clipboard ? 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M16.666 5 7.5 14.167 3.333 10"/></svg>
+                            :
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><g clip-path="url(#a)"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4.167 12.5c-.777 0-1.165 0-1.471-.127a1.67 1.67 0 0 1-.902-.902c-.127-.306-.127-.694-.127-1.471V4.333c0-.933 0-1.4.182-1.756.16-.314.414-.569.728-.729.357-.181.823-.181 1.757-.181H10c.777 0 1.165 0 1.472.127.408.169.732.493.902.902.126.306.126.694.126 1.47m-2.333 14.167h5.5c.933 0 1.4 0 1.757-.181.313-.16.568-.415.728-.729.182-.356.182-.823.182-1.756v-5.5c0-.934 0-1.4-.182-1.757a1.67 1.67 0 0 0-.728-.728C17.067 7.5 16.6 7.5 15.667 7.5h-5.5c-.933 0-1.4 0-1.757.182-.313.16-.568.414-.728.728-.182.357-.182.823-.182 1.757v5.5c0 .933 0 1.4.182 1.756.16.314.415.569.728.729.357.181.824.181 1.757.181"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h20v20H0z"/></clipPath></defs></svg>
+
+
+                        }
                         Copy URL
                     </li>
-                    <li className="listItem">
+                    <li className="listItem" onClick={handleArchive} >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M1.667 8.333S3.337 6.057 4.695 4.7a7.5 7.5 0 1 1-1.902 7.385m-1.126-3.75v-5m0 5h5"/></svg>
                         Unarchive
                     </li>
-                    <li className="listItem">
+                    <li className="listItem" onClick={handleDelete}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M7.5 2.5h5M2.5 5h15m-1.667 0-.584 8.766c-.088 1.315-.132 1.973-.416 2.472a2.5 2.5 0 0 1-1.082 1.012c-.516.25-1.175.25-2.493.25H8.742c-1.318 0-1.977 0-2.493-.25a2.5 2.5 0 0 1-1.082-1.012c-.284-.5-.328-1.157-.416-2.472L4.167 5m4.166 3.75v4.167m3.334-4.167v4.167"/></svg>
                         Delete Permanently
                     </li>
@@ -193,17 +220,3 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
 
 
 
-function DeleteWindow(){
-    return (
-        <div className="deleteWindowOverlay">
-            <div className="deleteWindow">
-                <h2>Delete Bookmark</h2>
-                <p>are you sure you want to delete this Bookmark?</p>
-                <div className="buttons">
-                    <button className="cancel">Cancel</button>
-                    <button className="remove">Delete Permanently</button>
-                </div>
-            </div>
-        </div>
-    )
-}

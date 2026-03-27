@@ -10,6 +10,7 @@ import { Context } from "../utils/ContextProvider"
 import fetchWithAuth from "../utils/functions"
 import { useNavigate } from "react-router"
 import Archive from "../windows/Archive"
+import Delete from "../windows/Delete"
 
 export default function Profile(){
     const context = useContext(Context)
@@ -59,6 +60,7 @@ export default function Profile(){
                 <AddBookmark />
                 <EditBookmark />
                 <Archive />
+                <Delete />
         </div>
     )
 }

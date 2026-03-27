@@ -18,6 +18,8 @@ type ContextType = {
   setArchive:Dispatch<SetStateAction<ArchiveType>>
   setHolder:Dispatch<SetStateAction<string>>
   itemsHolder:string
+  deleteWindow:DeleteType
+  setDelete:Dispatch<SetStateAction<DeleteType>>
 }
 
 type UserType = {
@@ -40,6 +42,11 @@ type bookmarkType = {
 }
 
 type ArchiveType = {
+    open:boolean
+    bookmarkId:number | null
+    archived:number | null
+}
+type DeleteType = {
     open:boolean
     bookmarkId:number | null
 }
@@ -72,12 +79,19 @@ export default function ContextProvider({ children }:{ children:ReactNode }){
     const [refresh,setRefresh] = useState<boolean>(true)
     const [archive,setArchive] = useState<ArchiveType>({
         open:false,
-        bookmarkId:null
-
+        bookmarkId:null,
+        archived:null
     })
+    const [deleteWindow,setDelete] = useState<DeleteType>({
+        open:false,
+        bookmarkId:null
+    })
+
+
+
     const [itemsHolder,setHolder] = useState('home')
     return (
-        <Context.Provider value={{addBookmarkWindow,setBookmarkWindow,user,setUser,bookmarks,setBookmarks,refresh,setRefresh,editTargetBookmark,setEditBookmark,editWindow,setEdit,archive,setArchive,itemsHolder,setHolder}}>
+        <Context.Provider value={{addBookmarkWindow,setBookmarkWindow,user,setUser,bookmarks,setBookmarks,refresh,setRefresh,editTargetBookmark,setEditBookmark,editWindow,setEdit,archive,setArchive,itemsHolder,setHolder,deleteWindow,setDelete}}>
             {children}
         </Context.Provider>
     )

@@ -63,7 +63,15 @@ export default function AddBookmark(){
     }
 
 
-
+    function clearForm(){
+        setValues({
+            title:'',
+            description:'',
+            url:'',
+            tags:[],
+            selectedTags:[]            
+        })
+    }
 
 
 
@@ -198,7 +206,10 @@ export default function AddBookmark(){
                         </div>
                     </div>
                     <div className="formButtons">
-                        <button type='button' >Cancel</button>
+                        <button onClick={()=>{
+                            context?.setBookmarkWindow(false)
+                            clearForm()
+                        }} type='button' >Cancel</button>
                         <button id='addButton'>Add Bookmark</button>
                     </div>
                 </form>

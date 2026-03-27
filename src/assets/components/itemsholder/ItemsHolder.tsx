@@ -64,6 +64,12 @@ export default function itemsHolder(){
 
     },[context?.bookmarks])
         
+    useEffect(()=>{
+        console.log('rerendered')
+    },[])
+
+
+
 
     return(
         <>

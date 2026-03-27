@@ -58,6 +58,18 @@ export default function EditBookmark(){
         }))
     }
 
+    function clearForm(){
+        setValues({
+            title:'',
+            description:'',
+            url:'',
+            tags:[],
+            selectedTags:[]            
+        })
+    }
+
+
+
     function validate(){
         const newErrors={
             title:values.title.length ===0,
@@ -151,7 +163,6 @@ export default function EditBookmark(){
         }
     }   
 
-    console.log(values)
 
 
     useEffect(()=>{
@@ -200,7 +211,10 @@ export default function EditBookmark(){
                         </div>
                     </div>
                     <div className="formButtons">
-                        <button type='button' >Cancel</button>
+                        <button onClick={()=>{
+                            context?.setEdit(false)
+                            clearForm()
+                        }} type='button' >Cancel</button>
                         <button id='addButton'>Edit Bookmark</button>
                     </div>
                 </form>
