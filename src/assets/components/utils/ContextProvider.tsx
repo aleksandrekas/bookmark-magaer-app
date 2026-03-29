@@ -38,7 +38,8 @@ type bookmarkType = {
     url:string,
     userId:number,
     visitCount:number,
-    tags:string[]
+    tags:string[],
+    pinned:number
 }
 
 type ArchiveType = {
@@ -68,7 +69,8 @@ export default function ContextProvider({ children }:{ children:ReactNode }){
             url:'',
             userId:0,
             visitCount:0,
-            tags:[]
+            tags:[],
+            pinned:0
     })
     const [user,setUser] = useState<UserType>({
         userEmail:'',

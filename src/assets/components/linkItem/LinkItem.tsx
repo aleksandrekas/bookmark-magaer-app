@@ -2,6 +2,7 @@ import "./linkItem.css"
 import { useRef, useState,useContext } from "react"
 import { useClickaway } from "../utils/useClickaway"
 import { Context } from "../utils/ContextProvider"
+import fetchWithAuth from "../utils/functions"
 
 
 type bookmarkType = {
@@ -15,6 +16,7 @@ type bookmarkType = {
     userId:number,
     visitCount:number,
     tags:string[]
+    pinned:number
 }
 
 
@@ -25,7 +27,7 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
     const itemMenuRef = useRef<any>(null)
     const itemBtnRef = useRef<any>(null)
     useClickaway(itemMenuRef,()=>{setMenu(false)},itemBtnRef)
-    const {archived,created,description,id,lastVisit,title,url,userId,visitCount,tags} = bookmark
+    const {archived,created,description,id,lastVisit,title,url,userId,visitCount,tags,pinned} = bookmark
     const context = useContext(Context)
     function shortenedText(text:string){
         if(text.length <= 18){
@@ -77,7 +79,8 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
             url:url,
             userId:userId,
             visitCount:visitCount,
-            tags:tags
+            tags:tags,
+            pinned:pinned
         })
     }
 
@@ -116,6 +119,30 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
 
 
 
+    async function handleVisit(){
+        const currdate = new Date().toISOString()
+        try{
+            const visitRequest = await  fetchWithAuth('http://localhost:3000/api/edit',{
+                method:"PATCH",
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    visitCount:visitCount + 1 ,
+                    lastVisit:currdate,
+                    id:id
+                })
+            })
+            console.log(visitRequest)
+            context?.setRefresh(!context.refresh)
+        }catch(err){
+            console.log(err)
+        }
+
+
+    }
+
+
     return (
         <div className="itemContainer">
             <header className="itemHeader">
@@ -123,7 +150,7 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
                     <img src="/images/logos/favicon-frontend-mentor.png" alt="" />
                 </div>
                 <div className="titleHolder">
-                    <a href={url} target="_blank">{shortenedText(title)}</a>
+                    <a href={url} target="_blank" onClick={handleVisit}>{shortenedText(title)}</a>
                     <p>{getOrigin(url)}</p>
                 </div>
                 <button onClick={()=>{setMenu(!itemMenu)}} ref={itemBtnRef}  className="itemBtn">
@@ -158,12 +185,17 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
                 <img style={{display: archived === 0 ? 'block':'none'}} src="/images/icon-pin.svg" alt="" />
                 <div style={{display: archived === 1 ? 'block':'none'}} className="tags archiveStatus">archived</div>
             </footer>
-            <div className="itemMenu" style={{display: itemMenu ? 'block':'none'}} ref={itemMenuRef}>
+            <div className="itemMenu" style={{display: itemMenu ? 'block':'none'}} ref={itemMenuRef} >
                 <ul className="itemMenuList" style={{display: archived === 1 ? "none" : "block" }}>
-                    <a href={url} target="_blank" className="listItem">
+                    <div  className="listItem" 
+                      onClick={() => {
+                        
+                        handleVisit()
+                        window.open(url, "_blank")
+                    }}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M17.5 7.5v-5m0 0h-5m5 0-6.667 6.667m-2.5-5H6.5c-1.4 0-2.1 0-2.635.272a2.5 2.5 0 0 0-1.093 1.093C2.5 6.066 2.5 6.767 2.5 8.167V13.5c0 1.4 0 2.1.272 2.635a2.5 2.5 0 0 0 1.093 1.092C4.4 17.5 5.1 17.5 6.5 17.5h5.333c1.4 0 2.1 0 2.635-.273a2.5 2.5 0 0 0 1.093-1.092c.272-.535.272-1.235.272-2.635v-1.833"/></svg>
                         Visit
-                    </a>
+                    </div>
                     <li className="listItem" onClick={copyText}>
                         {clipboard ? 
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M16.666 5 7.5 14.167 3.333 10"/></svg>

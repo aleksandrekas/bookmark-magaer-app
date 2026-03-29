@@ -85,9 +85,16 @@ export default function AddBookmark(){
         }))
     }
 
-    function getCurrentDate(){
+
+
+    function getCurrentDate() {
         return new Date().toISOString()
+
     }
+
+
+
+
 
     function handleTextarea(e:React.ChangeEvent<HTMLTextAreaElement>){
         setCount(e.target.value.length)
