@@ -29,7 +29,7 @@ export default function Profile(){
                 userName:userName
             })
             context?.setBookmarks(res)
-
+            console.log(res)
         }catch(err){
             navigate('/')
         }

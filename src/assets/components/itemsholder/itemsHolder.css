@@ -19,9 +19,10 @@
 
 .noBookmarksDiv{
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+    color: var(--txt-color-2);
 }

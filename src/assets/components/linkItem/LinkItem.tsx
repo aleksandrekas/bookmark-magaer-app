@@ -6,18 +6,22 @@ import fetchWithAuth from "../utils/functions"
 
 
 type bookmarkType = {
-    archived:number,
-    created:string,
-    description:string,
-    id:number,
-    lastVisit:string ,
-    title:string,
-    url:string,
-    userId:number,
-    visitCount:number,
+    archived:number
+    created:string
+    description:string
+    id:number
+    lastVisit:string 
+    title:string
+    url:string
+    userId:number
+    visitCount:number
     tags:string[]
     pinned:number
+    icon:string
 }
+
+type UpdateParams = Record<string, any>;
+
 
 
 
@@ -27,7 +31,7 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
     const itemMenuRef = useRef<any>(null)
     const itemBtnRef = useRef<any>(null)
     useClickaway(itemMenuRef,()=>{setMenu(false)},itemBtnRef)
-    const {archived,created,description,id,lastVisit,title,url,userId,visitCount,tags,pinned} = bookmark
+    const {archived,created,description,id,lastVisit,title,url,userId,visitCount,tags,pinned,icon} = bookmark
     const context = useContext(Context)
     function shortenedText(text:string){
         if(text.length <= 18){
@@ -80,7 +84,8 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
             userId:userId,
             visitCount:visitCount,
             tags:tags,
-            pinned:pinned
+            pinned:pinned,
+            icon:icon
         })
     }
 
@@ -116,11 +121,9 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
         const origin = link.split('https://')[1]
         return origin
     }
-
-
-
-    async function handleVisit(){
-        const currdate = new Date().toISOString()
+    
+    
+    async function handlebookmark(params:UpdateParams){
         try{
             const visitRequest = await  fetchWithAuth('http://localhost:3000/api/edit',{
                 method:"PATCH",
@@ -128,9 +131,7 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
                     'Content-Type':'application/json'
                 },
                 body:JSON.stringify({
-                    visitCount:visitCount + 1 ,
-                    lastVisit:currdate,
-                    id:id
+                    ...params
                 })
             })
             console.log(visitRequest)
@@ -138,19 +139,25 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
         }catch(err){
             console.log(err)
         }
-
-
     }
+
+    
+
+
 
 
     return (
         <div className="itemContainer">
             <header className="itemHeader">
                 <div className="logoHolder">
-                    <img src="/images/logos/favicon-frontend-mentor.png" alt="" />
+                    <img src={icon} alt="" />
                 </div>
                 <div className="titleHolder">
-                    <a href={url} target="_blank" onClick={handleVisit}>{shortenedText(title)}</a>
+                    <a href={url} target="_blank" onClick={()=>handlebookmark({
+                        visitCount:visitCount + 1 ,
+                        lastVisit:new Date().toISOString(),
+                        id:id
+                    })}>{shortenedText(title)}</a>
                     <p>{getOrigin(url)}</p>
                 </div>
                 <button onClick={()=>{setMenu(!itemMenu)}} ref={itemBtnRef}  className="itemBtn">
@@ -182,15 +189,18 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
                         {formattedDate(created)}
                     </li>
                 </ul>
-                <img style={{display: archived === 0 ? 'block':'none'}} src="/images/icon-pin.svg" alt="" />
+                <img style={{display: archived === 0 ? 'block':'none',visibility:pinned === 1 ? 'visible': 'hidden'}} src="/images/icon-pin.svg" alt="" />
                 <div style={{display: archived === 1 ? 'block':'none'}} className="tags archiveStatus">archived</div>
             </footer>
             <div className="itemMenu" style={{display: itemMenu ? 'block':'none'}} ref={itemMenuRef} >
                 <ul className="itemMenuList" style={{display: archived === 1 ? "none" : "block" }}>
                     <div  className="listItem" 
                       onClick={() => {
-                        
-                        handleVisit()
+                        handlebookmark({
+                            visitCount:visitCount + 1 ,
+                            lastVisit:new Date().toISOString(),
+                            id:id
+                        })
                         window.open(url, "_blank")
                     }}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M17.5 7.5v-5m0 0h-5m5 0-6.667 6.667m-2.5-5H6.5c-1.4 0-2.1 0-2.635.272a2.5 2.5 0 0 0-1.093 1.093C2.5 6.066 2.5 6.767 2.5 8.167V13.5c0 1.4 0 2.1.272 2.635a2.5 2.5 0 0 0 1.093 1.092C4.4 17.5 5.1 17.5 6.5 17.5h5.333c1.4 0 2.1 0 2.635-.273a2.5 2.5 0 0 0 1.093-1.092c.272-.535.272-1.235.272-2.635v-1.833"/></svg>
@@ -206,9 +216,13 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
                         }
                         Copy URL
                     </li>
-                    <li className="listItem">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="m6.98 13.014-4.713 4.714M9.745 5.535l-1.3 1.3c-.106.107-.16.16-.22.202a1 1 0 0 1-.172.092c-.069.027-.143.042-.29.071l-3.053.611c-.794.159-1.19.238-1.376.447a.83.83 0 0 0-.203.668c.039.277.325.563.897 1.135l5.905 5.905c.572.572.858.858 1.136.897a.83.83 0 0 0 .667-.202c.21-.186.289-.583.447-1.376l.611-3.054c.03-.147.044-.22.071-.29a1 1 0 0 1 .092-.172c.042-.06.096-.113.202-.22l1.3-1.3c.068-.068.102-.102.14-.132a1 1 0 0 1 .104-.07 2 2 0 0 1 .174-.08l2.079-.892c.606-.26.91-.39 1.047-.6a.83.83 0 0 0 .12-.622c-.05-.246-.283-.48-.75-.946l-4.286-4.286c-.466-.466-.7-.7-.946-.75a.83.83 0 0 0-.622.12c-.21.138-.34.441-.6 1.048l-.89 2.078c-.039.088-.058.133-.081.174a1 1 0 0 1-.071.105c-.03.037-.064.071-.132.139"/></svg>
-                        Unpin
+                    <li className="listItem" onClick={()=> handlebookmark({pinned:pinned === 1 ? 0 : 1,id:id})}>
+                        {pinned === 0 ? 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M10 12.5v5.833M6.668 6.09v1.776c0 .173 0 .26-.017.343a.8.8 0 0 1-.074.211c-.039.076-.093.143-.201.279l-1.308 1.635c-.555.693-.832 1.04-.833 1.332 0 .254.115.494.314.652.228.182.672.182 1.56.182h7.785c.888 0 1.332 0 1.56-.182a.83.83 0 0 0 .314-.652c0-.292-.278-.639-.833-1.332l-1.308-1.635a1.8 1.8 0 0 1-.2-.279.8.8 0 0 1-.075-.211c-.017-.083-.017-.17-.017-.343V6.09c0-.096 0-.144.005-.191a1 1 0 0 1 .024-.125c.013-.045.03-.09.066-.18l.84-2.099c.245-.612.368-.919.317-1.165a.83.83 0 0 0-.356-.525c-.21-.138-.54-.138-1.199-.138H6.97c-.66 0-.99 0-1.2.138a.83.83 0 0 0-.355.525c-.05.246.072.553.317 1.165l.84 2.1c.035.089.053.134.066.18q.016.06.024.124c.005.047.005.095.005.191"/></svg>
+                        :
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="m6.98 13.014-4.713 4.714M9.745 5.535l-1.3 1.3c-.106.107-.16.16-.22.202a1 1 0 0 1-.172.092c-.069.027-.143.042-.29.071l-3.053.611c-.794.159-1.19.238-1.376.447a.83.83 0 0 0-.203.668c.039.277.325.563.897 1.135l5.905 5.905c.572.572.858.858 1.136.897a.83.83 0 0 0 .667-.202c.21-.186.289-.583.447-1.376l.611-3.054c.03-.147.044-.22.071-.29a1 1 0 0 1 .092-.172c.042-.06.096-.113.202-.22l1.3-1.3c.068-.068.102-.102.14-.132a1 1 0 0 1 .104-.07 2 2 0 0 1 .174-.08l2.079-.892c.606-.26.91-.39 1.047-.6a.83.83 0 0 0 .12-.622c-.05-.246-.283-.48-.75-.946l-4.286-4.286c-.466-.466-.7-.7-.946-.75a.83.83 0 0 0-.622.12c-.21.138-.34.441-.6 1.048l-.89 2.078c-.039.088-.058.133-.081.174a1 1 0 0 1-.071.105c-.03.037-.064.071-.132.139"/></svg>
+                        }
+                        {pinned === 0 ? 'pin':'unpin'}
                     </li>
                     <li className="listItem" onClick={handleEdit}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><g clip-path="url(#a)"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9.167 3.333h-3.5c-1.4 0-2.1 0-2.635.273a2.5 2.5 0 0 0-1.093 1.092c-.272.535-.272 1.235-.272 2.635v7c0 1.4 0 2.1.272 2.635a2.5 2.5 0 0 0 1.093 1.093c.535.272 1.235.272 2.635.272h7c1.4 0 2.1 0 2.635-.272a2.5 2.5 0 0 0 1.093-1.093c.272-.535.272-1.235.272-2.635v-3.5m-10 2.5h1.395c.408 0 .612 0 .804-.046q.256-.061.481-.2c.169-.102.313-.246.601-.535l7.969-7.969a1.768 1.768 0 0 0-2.5-2.5l-7.969 7.97c-.288.287-.432.432-.535.6q-.139.225-.2.482c-.046.191-.046.395-.046.803z"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h20v20H0z"/></clipPath></defs></svg>
@@ -220,7 +234,12 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
                     </li>
                 </ul>
                 <ul className="itemMenuList" style={{display: archived === 1 ? "block" : "none" }}>
-                    <a href={url} target="_blank" className="listItem">
+                    <a href={url} target="_blank" onClick={() => {
+                        handlebookmark({
+                            visitCount:visitCount + 1 ,
+                            lastVisit:new Date().toISOString(),
+                            id:id
+                        })}} className="listItem" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M17.5 7.5v-5m0 0h-5m5 0-6.667 6.667m-2.5-5H6.5c-1.4 0-2.1 0-2.635.272a2.5 2.5 0 0 0-1.093 1.093C2.5 6.066 2.5 6.767 2.5 8.167V13.5c0 1.4 0 2.1.272 2.635a2.5 2.5 0 0 0 1.093 1.092C4.4 17.5 5.1 17.5 6.5 17.5h5.333c1.4 0 2.1 0 2.635-.273a2.5 2.5 0 0 0 1.093-1.092c.272-.535.272-1.235.272-2.635v-1.833"/></svg>
                         Visit
                     </a>

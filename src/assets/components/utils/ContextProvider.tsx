@@ -40,6 +40,7 @@ type bookmarkType = {
     visitCount:number,
     tags:string[],
     pinned:number
+    icon:string
 }
 
 type ArchiveType = {
@@ -70,7 +71,8 @@ export default function ContextProvider({ children }:{ children:ReactNode }){
             userId:0,
             visitCount:0,
             tags:[],
-            pinned:0
+            pinned:0,
+            icon:''
     })
     const [user,setUser] = useState<UserType>({
         userEmail:'',

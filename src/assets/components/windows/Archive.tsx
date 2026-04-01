@@ -26,9 +26,7 @@ export default function Archive(){
                     'Content-Type':'application/json'
                 },
                 body:JSON.stringify({
-                    params:{
-                        archived:context?.archive.archived === 1 ? 0 : 1
-                    },
+                    archived:context?.archive.archived === 1 ? 0 : 1,
                     id:context?.archive.bookmarkId
                 })
             })

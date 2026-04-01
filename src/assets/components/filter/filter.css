@@ -7,11 +7,13 @@
     align-items: center;
     margin: 1rem 0;
     padding: 0 1rem 0 1.5rem;
+    position: relative;
 }
 
 
 .filter h1{
     font-size: 24px;
+    color: var(--txt-color-2);
 }
 
 .filterBtn{
@@ -25,4 +27,50 @@
     justify-content: space-evenly;
     align-items: center;
     padding: 0 1rem;
+    cursor: pointer;
+}
+
+
+.filters{
+    position: absolute;
+    top: 45px;
+    right: 15px;
+    background-color: var(--bg-color-2);
+    width: 200px;
+    height: 132px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.filterItem{
+    width: 184px;
+    height: 34px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    color: var(--txt-color-2);
+    cursor: pointer;
+    padding: 0 0.3rem;
+}
+
+.filterItem:hover{
+    background-color: var(--hover);
+}
+
+.selectedItem{
+    background-color: var(--hover);
+}
+
+
+.filterItem svg{
+    width: 16px;
+}
+.filterItem svg path{
+    stroke: var(--txt-color-2);
 }

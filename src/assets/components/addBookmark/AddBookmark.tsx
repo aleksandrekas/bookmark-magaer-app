@@ -160,7 +160,8 @@ export default function AddBookmark(){
                     archived:false,
                     created:getCurrentDate(),
                     visitCount:0,
-                    lastVisit:"never"
+                    lastVisit:"never",
+                    pinned:0
                 })
             })
             context?.setRefresh(!context.refresh)

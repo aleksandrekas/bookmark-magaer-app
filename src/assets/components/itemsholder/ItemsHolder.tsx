@@ -16,6 +16,8 @@ type BookmarkType = {
     userId:number,
     visitCount:number,
     tags:string[]
+    pinned:number
+    icon:string
 }
 
 type BookmarkStateType = {
