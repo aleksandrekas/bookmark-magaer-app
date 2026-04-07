@@ -3,7 +3,7 @@ import './sideBar.css';
 import { useClickaway } from '../utils/useClickaway';
 import { useContext } from 'react';
 import { Context } from '../utils/ContextProvider';
-
+import type { Dispatch,SetStateAction } from 'react';
 
 type Tag = {
   name: string;
@@ -11,14 +11,11 @@ type Tag = {
 };
 
 
-export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:React.Dispatch<React.SetStateAction<boolean>>}){
-    const [bookamrkSelection,setBookmark] = useState<string>('home')
-    const ref = useRef<any>(null)
-    const context = useContext(Context)
-    useClickaway(ref,()=>{stateSetter(false)})
-    
 
-    const tags : Tag[] = [
+export default function SideBar({state,stateSetter,theme}:{state:boolean,stateSetter:React.Dispatch<React.SetStateAction<boolean>>,theme:string}){
+    const [bookamrkSelection,setBookmark] = useState<string>('home')
+    const [checkedTags,setTags] = useState<string[]>([])
+    const [tagArray,setArray] = useState<Tag[]>([
         { name: 'AI', count: 0 },
         { name: 'Community', count: 0 },
         { name: 'Compability', count: 0 },
@@ -35,11 +32,42 @@ export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:R
         { name: 'Reference', count: 0 },
         { name: 'Tips', count: 0 },
         { name: 'Tools', count: 0 },
-        { name: 'Tutorial', count: 0 }
-    ];  
+        { name: 'Tutorial', count: 0 }        
+    ])
 
 
+    function setTagsToArray(tag:string){
+        if(checkedTags.includes(tag)){
+            setTags(checkedTags.filter((item)=> item !== tag))
+        }else{
+            setTags((prev)=>([
+                ...prev,
+                tag
+            ]))
+        }
+    }
 
+
+    const ref = useRef<any>(null)
+    const context = useContext(Context)
+    useClickaway(ref,()=>{stateSetter(false)})
+    
+
+
+    useEffect(()=>{
+        const bookmarkTagsArray = context?.bookmarks.map(item => item.tags).flat()
+        const changedTags = tagArray.map((item)=>({
+            ...item,
+            count:bookmarkTagsArray!.filter(tag => tag === item.name).length
+        }))
+        setArray(changedTags)
+        
+    },[context?.bookmarks])
+
+
+    useEffect(()=>{
+        context?.setFilterTags(checkedTags)
+    },[checkedTags])
 
 
 
@@ -47,7 +75,7 @@ export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:R
     return(
         <div  className={state ? 'sideContainer sidebarActive' : 'sideContainer'} ref={ref}>
             <section className="sidebar">
-                <img src="/images/logo-light-theme.svg" alt="logo" className="sidebarLogo" />
+                <img src={ theme === 'light' ? "/images/logo-light-theme.svg" : "/images/logo-dark-theme.svg"} alt="logo" className="sidebarLogo" />
                 <button  onClick={()=>{
                     setBookmark('home')
                     context?.setHolder('home')
@@ -67,9 +95,10 @@ export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:R
                 </button>
                 <div className="sideTags">
                     <p className="label">TAGS</p>
-                    {tags.map((item,index)=>(
-                        <SideTag key={index} count={item.count} name={item.name} />
-                    ))}
+                    {tagArray.map((item,index)=>(
+                            <SideTag key={index} count={item.count} name={item.name} setter={setTagsToArray} />
+                        ))                        
+                    }
                 </div>
             </section> 
         </div>
@@ -81,16 +110,22 @@ export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:R
 
 
 
-function SideTag({count,name}:{count:number,name:string}){
+function SideTag({count,name,setter}:{count:number,name:string,setter:(tag:string)=>void}){
     const [checked,setChecked] = useState<boolean>(false)
 
-    useEffect(()=>{
-    },[checked])
 
     return(
         <div  className='sideTag'>
-            <div onClick={()=>{setChecked(!checked)}} className={checked ? 'checkbox checked': 'checkbox'}></div>
-            <label onClick={()=>{setChecked(!checked)}}>
+            <div onClick={()=>{
+                    setChecked(!checked)
+                    setter(name)
+                }
+            } className={checked ? 'checkbox checked': 'checkbox'}></div>
+            <label onClick={()=>{
+                setChecked(!checked)
+                setter(name)    
+                }
+                }>
                 {name}
             </label>
             <div className="count">{count}</div>

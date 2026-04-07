@@ -12,9 +12,13 @@ import { useNavigate } from "react-router"
 import Archive from "../windows/Archive"
 import Delete from "../windows/Delete"
 
+
 export default function Profile(){
     const context = useContext(Context)
     const navigate = useNavigate()
+    const [sidebarState,setSidebar] = useState(false)
+    const [sort,setSort] = useState<string>('recently added')
+    const [theme,setTheme] = useState<string>('light')
 
     async function fetchData(){
         try{
@@ -29,7 +33,6 @@ export default function Profile(){
                 userName:userName
             })
             context?.setBookmarks(res)
-            console.log(res)
         }catch(err){
             navigate('/')
         }
@@ -48,14 +51,13 @@ export default function Profile(){
 
 
 
-    const [sidebarState,setSidebar] = useState(false)
     return(
         <div className="profileContainer">           
-                <SideBar state={sidebarState} stateSetter={setSidebar}/>
+                <SideBar state={sidebarState} stateSetter={setSidebar} theme={theme}/>
                 <div className="profileContent">
-                    <Header sideBarSetter={setSidebar} />
-                    <Filter />
-                    <ItemsHolder /> 
+                    <Header sideBarSetter={setSidebar} theme={theme} settheme={setTheme} />
+                    <Filter setSort={setSort} />
+                    <ItemsHolder sort={sort}/> 
                 </div>
                 <AddBookmark />
                 <EditBookmark />

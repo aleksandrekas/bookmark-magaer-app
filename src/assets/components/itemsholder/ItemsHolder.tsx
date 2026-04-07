@@ -29,7 +29,7 @@ type BookmarkStateType = {
 
 
 
-export default function itemsHolder(){
+export default function itemsHolder({sort}:{sort:string}){
     const [bookmark,setBookmarks] = useState<BookmarkStateType>({
         bookmarks:[],
         archived:[]
@@ -37,6 +37,38 @@ export default function itemsHolder(){
 
     const container = useRef<any>(null)
     const context = useContext(Context)
+
+    function sortBookmarks(arr:BookmarkType[],type:string){
+        if(type === 'recently added'){
+            return arr.sort((a,b)=> new Date(b.created).getTime() - new Date(a.created).getTime())
+        }else if(type === 'recently visited'){
+            return arr.sort((a,b)=> new Date(b.lastVisit).getTime() - new Date(a.lastVisit).getTime())
+        }else if(type === 'most visited'){
+            return arr.sort((a,b)=> b.visitCount - a.visitCount)
+        }
+    }
+
+
+    function pinTags(bookmarks:BookmarkType[]){
+        const pinned = bookmarks.filter((item)=> item.pinned === 1)
+        const notPinned = bookmarks.filter((item)=> item.pinned === 0)
+        if(pinned.length === 0) return notPinned
+        return [pinned,notPinned].flat()
+
+    }
+
+
+
+    function filterByTags(bookmarks:BookmarkType[]){
+        if(context?.filterTags.length === 0){
+            return bookmarks
+        }
+        return pinTags(bookmarks.filter((item)=>item.tags.some(tag => context?.filterTags.includes(tag))))
+
+    }
+
+
+
     useEffect(()=>{
         const element = container.current;
         function adjustHeight(){
@@ -57,44 +89,31 @@ export default function itemsHolder(){
         let archivedBookmarks = context?.bookmarks.filter((item) => item.archived === 1) ?? []
 
         setBookmarks({
-            bookmarks:activeBookmarks,
+            bookmarks:filterByTags(sortBookmarks(activeBookmarks,sort) || []),
             archived:archivedBookmarks
         })
-
-
+    },[context?.bookmarks,sort,context?.filterTags])
     
 
-    },[context?.bookmarks])
-        
     useEffect(()=>{
-        console.log('rerendered')
-    },[])
+        console.log(context?.filterTags)
+    },[context?.filterTags])
 
-
+    const ishome = context?.itemsHolder === 'home'
+    const currentBookmarks = ishome ? bookmark.bookmarks : bookmark.archived
+    const empty = ishome ? 'No bookmarks' : 'No archived bookamrks'
 
 
     return(
-        <>
-            <div className="itemHolder" style={{display: context?.itemsHolder === 'home' ? 'block': 'none'}}  ref={container}>
-                {bookmark.bookmarks.length === 0 ? (
-                    <div className="noBookmarksDiv">No bookmarks</div>
+            <div className="itemHolder"  ref={container}>
+                {currentBookmarks.length === 0 ? (
+                    <div className="noBookmarksDiv">{empty}</div>
                 ):(
-                    bookmark.bookmarks.map((item,index)=>(
-                        <LinkItem bookmark={item} key={index}/>
-                    )) 
-                )}
-
-            </div>
-            <div className="itemHolder" style={{display: context?.itemsHolder === 'archived' ? 'block': 'none'}}   ref={container}>
-                {bookmark.archived.length === 0 ? (
-                    <div className="noBookmarksDiv">No archived bookmarks</div>
-                ):(
-                    bookmark.archived.map((item,index)=>(
-                        <LinkItem bookmark={item} key={index}/>
+                    currentBookmarks.map((item)=>(
+                        <LinkItem bookmark={item} key={item.id}/>
                     )) 
                 )}
             </div>
-        </>
     )
 }
 

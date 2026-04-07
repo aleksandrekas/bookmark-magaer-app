@@ -20,11 +20,15 @@ type Errors ={
 
 
 export default function AddBookmark(){
+    const tagsarray = ['AI','Community','Compability','CSS','Design','Framework','Git','HTML','JavaScript','Layout','Learning','Performance','Practice','Reference','Tips','Tools','Tutorial']
+
+
+    
     const [values,setValues] = useState<Inputs>({
         title:'',
         description:'',
         url:'',
-        tags:[],
+        tags:tagsarray,
         selectedTags:[]
     })
 
@@ -43,7 +47,6 @@ export default function AddBookmark(){
     const [letterCount,setCount] = useState<number>(0)
     const [showTags,setShow] = useState<boolean>(false)
 
-    const tagsarray = ['AI','Community','Compability','CSS','Design','Framework','Git','HTML','JavaScript','Layout','Learning','Performance','Practice','Reference','Tips','Tools','Tutorial']
 
 
 
@@ -68,7 +71,7 @@ export default function AddBookmark(){
             title:'',
             description:'',
             url:'',
-            tags:[],
+            tags:tagsarray,
             selectedTags:[]            
         })
     }
@@ -108,7 +111,7 @@ export default function AddBookmark(){
     function handleTags(e:React.ChangeEvent<HTMLInputElement>){
         const value = e.target.value
         setTag(value)
-        const filteredTags = tagsarray.filter( item =>item.toLowerCase().startsWith(value.toLowerCase()));
+        const filteredTags = value === '' ? tagsarray : tagsarray.filter( item => item.toLowerCase().startsWith(value.toLowerCase()));
         setValues((prev)=>({
             ...prev,
             tags:filteredTags
@@ -177,7 +180,12 @@ export default function AddBookmark(){
     return (
         <div className="addOverlay" style={{display: context?.addBookmarkWindow ? "flex":"none"}}>
             <div className="add">
-                <button className="closeBtn" onClick={()=>{context?.setBookmarkWindow(false)}}>
+                <button className="closeBtn" 
+                onClick={()=>{
+                    context?.setBookmarkWindow(false)
+                    clearForm()
+                }}
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M15 5 5 15M5 5l10 10"/></svg>
                 </button>
                 <h1>Add a Bookmark</h1>

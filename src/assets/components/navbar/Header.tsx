@@ -1,12 +1,11 @@
 import './header.css'
-import { useEffect, useRef, useState,useContext } from 'react'
+import { useEffect, useRef, useState,useContext, type Dispatch } from 'react'
 import { useClickaway } from '../utils/useClickaway'
 import { Context } from '../utils/ContextProvider'
 
 
-export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<React.SetStateAction<boolean>>}){
+export default function Header({sideBarSetter,settheme,theme}:{sideBarSetter:React.Dispatch<React.SetStateAction<boolean>>,settheme:Dispatch<React.SetStateAction<string>>,theme:string}){
     const [profile,setProfile] = useState<boolean>(false)
-    const [theme,setTheme] = useState<string>('light')
     const profileRef = useRef<any>(null)
     const context = useContext(Context)
     const profileButtonRef = useRef<any>(null)
@@ -16,9 +15,9 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
 
     function toggleTheme(){
         if(theme === 'light'){
-            setTheme('dark')
+            settheme('dark')
         }else{ 
-            setTheme('light')
+            settheme('light')
         }
     }
 

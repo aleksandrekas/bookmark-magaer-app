@@ -20,6 +20,8 @@ type ContextType = {
   itemsHolder:string
   deleteWindow:DeleteType
   setDelete:Dispatch<SetStateAction<DeleteType>>
+  filterTags:string[]
+  setFilterTags:Dispatch<SetStateAction<string[]>>
 }
 
 type UserType = {
@@ -29,16 +31,16 @@ type UserType = {
 }
 
 type bookmarkType = {
-    archived:number,
-    created:string,
-    description:string,
-    id:number,
-    lastVisit:string ,
-    title:string,
-    url:string,
-    userId:number,
-    visitCount:number,
-    tags:string[],
+    archived:number
+    created:string
+    description:string
+    id:number
+    lastVisit:string 
+    title:string
+    url:string
+    userId:number
+    visitCount:number
+    tags:string[]
     pinned:number
     icon:string
 }
@@ -91,11 +93,12 @@ export default function ContextProvider({ children }:{ children:ReactNode }){
         bookmarkId:null
     })
 
+    const [filterTags,setFilterTags] = useState<string[]>([])
 
 
     const [itemsHolder,setHolder] = useState('home')
     return (
-        <Context.Provider value={{addBookmarkWindow,setBookmarkWindow,user,setUser,bookmarks,setBookmarks,refresh,setRefresh,editTargetBookmark,setEditBookmark,editWindow,setEdit,archive,setArchive,itemsHolder,setHolder,deleteWindow,setDelete}}>
+        <Context.Provider value={{addBookmarkWindow,setBookmarkWindow,user,setUser,bookmarks,setBookmarks,refresh,setRefresh,editTargetBookmark,setEditBookmark,editWindow,setEdit,archive,setArchive,itemsHolder,setHolder,deleteWindow,setDelete,filterTags,setFilterTags}}>
             {children}
         </Context.Provider>
     )
