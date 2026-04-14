@@ -3,22 +3,9 @@ import LinkItem from '../linkItem/LinkItem';
 import { useEffect, useRef, useState } from 'react';
 import { useContext } from 'react';
 import { Context } from '../utils/ContextProvider';
+import type {BookmarkType } from '../utils/types';
 
 
-type BookmarkType = {
-    archived:number,
-    created:string,
-    description:string,
-    id:number,
-    lastVisit:string ,
-    title:string,
-    url:string,
-    userId:number,
-    visitCount:number,
-    tags:string[]
-    pinned:number
-    icon:string
-}
 
 type BookmarkStateType = {
     bookmarks:BookmarkType[]

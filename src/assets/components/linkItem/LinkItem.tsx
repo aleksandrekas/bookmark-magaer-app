@@ -3,29 +3,16 @@ import { useRef, useState,useContext } from "react"
 import { useClickaway } from "../utils/useClickaway"
 import { Context } from "../utils/ContextProvider"
 import fetchWithAuth from "../utils/functions"
+import type { BookmarkType } from "../utils/types"
 
 
-type bookmarkType = {
-    archived:number
-    created:string
-    description:string
-    id:number
-    lastVisit:string 
-    title:string
-    url:string
-    userId:number
-    visitCount:number
-    tags:string[]
-    pinned:number
-    icon:string
-}
 
 type UpdateParams = Record<string, any>;
 
 
 
 
-export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
+export default function LinkItem({bookmark}:{bookmark:BookmarkType}){
     const[itemMenu,setMenu] = useState<boolean>(false)
     const [clipboard,setClipboard] = useState<boolean>(false)
     const itemMenuRef = useRef<any>(null)
@@ -166,7 +153,7 @@ export default function LinkItem({bookmark}:{bookmark:bookmarkType}){
             </header>
             <section className="description">
                 <p className="descriptionP">
-                   {description}
+                   {description.length > 140 ? `${description.slice(0,145)}...` : description}
                 </p>
                 <div className="linkItemTags">
                     {tags.map((tag,index)=>(

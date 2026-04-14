@@ -74,6 +74,7 @@ export default function AddBookmark(){
             tags:tagsarray,
             selectedTags:[]            
         })
+        setCount(0)
     }
 
 
@@ -100,11 +101,20 @@ export default function AddBookmark(){
 
 
     function handleTextarea(e:React.ChangeEvent<HTMLTextAreaElement>){
-        setCount(e.target.value.length)
-        setValues((prev)=>({
-            ...prev,
-            description:e.target.value
-        }))
+        if(e.target.value.length > 200){
+            setValues((prev)=>({
+                ...prev,
+                description:e.target.value.slice(0,200)
+            }))
+            setCount(e.target.value.length)
+        }
+        if(e.target.value.length <= 200){
+            setCount(e.target.value.length)
+            setValues((prev)=>({
+                ...prev,
+                description:e.target.value
+            }))
+        }
     }
 
 
@@ -198,7 +208,7 @@ export default function AddBookmark(){
                     <textarea onChange={handleTextarea} id="description" name='description' value={values.description} ></textarea>
                     <span style={{visibility: errors.description ? "visible" : "hidden"}} className="errorspan">* enter description</span>
                     <div className="textareaCount">
-                        {letterCount}/280
+                        {letterCount}/200
                     </div>
                     <label htmlFor="url">Website URL *</label>
                     <input type="text" id='url' name='url' onChange={handleInputs} value={values.url} />

@@ -167,12 +167,13 @@ export default function EditBookmark(){
 
     useEffect(()=>{
         setValues({
-        title:title,
-        description:description,
-        url:url,
-        tags:tags,
-        selectedTags:tags
-    })
+            title:title,
+            description:description,
+            url:url,
+            tags:tags,
+            selectedTags:tags
+        })
+        setCount(values.description.length)
     },[context?.editTargetBookmark])
 
 

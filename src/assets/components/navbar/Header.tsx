@@ -2,15 +2,18 @@ import './header.css'
 import { useEffect, useRef, useState,useContext, type Dispatch } from 'react'
 import { useClickaway } from '../utils/useClickaway'
 import { Context } from '../utils/ContextProvider'
-
+import { useNavigate } from 'react-router'
 
 export default function Header({sideBarSetter,settheme,theme}:{sideBarSetter:React.Dispatch<React.SetStateAction<boolean>>,settheme:Dispatch<React.SetStateAction<string>>,theme:string}){
     const [profile,setProfile] = useState<boolean>(false)
     const profileRef = useRef<any>(null)
     const context = useContext(Context)
     const profileButtonRef = useRef<any>(null)
-
-    
+    const navigate = useNavigate()
+    function logOut(){
+        localStorage.removeItem('token')
+        navigate('/')
+    }
 
 
     function toggleTheme(){
@@ -75,7 +78,7 @@ export default function Header({sideBarSetter,settheme,theme}:{sideBarSetter:Rea
                         <div className={theme === 'light' ? 'selected':'selected switch'}></div>
                     </button>
                 </div>
-                    <button className="logout">
+                    <button className="logout" onClick={logOut}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M13.333 14.167 17.5 10m0 0-4.167-4.167M17.5 10h-10m0-7.5h-1c-1.4 0-2.1 0-2.635.272a2.5 2.5 0 0 0-1.093 1.093C2.5 4.4 2.5 5.1 2.5 6.5v7c0 1.4 0 2.1.272 2.635a2.5 2.5 0 0 0 1.093 1.092C4.4 17.5 5.1 17.5 6.5 17.5h1"/></svg>
                         <h3>Logout</h3>
                     </button>

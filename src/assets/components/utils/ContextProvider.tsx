@@ -1,5 +1,8 @@
 import { createContext,useState, } from "react";
 import type { ReactNode,Dispatch,SetStateAction } from "react"
+import type { BookmarkType } from "./types";
+
+
 
 type ContextType = {
   addBookmarkWindow: boolean
@@ -8,12 +11,12 @@ type ContextType = {
   setEdit: Dispatch<SetStateAction<boolean>>
   user:UserType 
   setUser:Dispatch<SetStateAction<UserType>>
-  bookmarks:Array<bookmarkType>
-  setBookmarks:Dispatch<SetStateAction<bookmarkType[]>>
+  bookmarks:Array<BookmarkType>
+  setBookmarks:Dispatch<SetStateAction<BookmarkType[]>>
   refresh:boolean
   setRefresh:Dispatch<SetStateAction<boolean>>
-  setEditBookmark:Dispatch<SetStateAction<bookmarkType>>
-  editTargetBookmark:bookmarkType
+  setEditBookmark:Dispatch<SetStateAction<BookmarkType>>
+  editTargetBookmark:BookmarkType
   archive:ArchiveType
   setArchive:Dispatch<SetStateAction<ArchiveType>>
   setHolder:Dispatch<SetStateAction<string>>
@@ -30,20 +33,7 @@ type UserType = {
     userName: string
 }
 
-type bookmarkType = {
-    archived:number
-    created:string
-    description:string
-    id:number
-    lastVisit:string 
-    title:string
-    url:string
-    userId:number
-    visitCount:number
-    tags:string[]
-    pinned:number
-    icon:string
-}
+
 
 type ArchiveType = {
     open:boolean
@@ -62,7 +52,7 @@ export const Context = createContext<ContextType | null>(null);
 export default function ContextProvider({ children }:{ children:ReactNode }){
     const [addBookmarkWindow,setBookmarkWindow] = useState<boolean>(false)
     const [editWindow,setEdit] = useState<boolean>(false)
-    const [editTargetBookmark,setEditBookmark] = useState<bookmarkType>({
+    const [editTargetBookmark,setEditBookmark] = useState<BookmarkType>({
             archived:0,
             created:'',
             description:'',
@@ -81,7 +71,7 @@ export default function ContextProvider({ children }:{ children:ReactNode }){
         userId:0,
         userName:''
     })
-    const [bookmarks,setBookmarks] = useState<bookmarkType[]>([])
+    const [bookmarks,setBookmarks] = useState<BookmarkType[]>([])
     const [refresh,setRefresh] = useState<boolean>(true)
     const [archive,setArchive] = useState<ArchiveType>({
         open:false,

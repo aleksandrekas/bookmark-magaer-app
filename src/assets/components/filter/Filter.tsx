@@ -1,25 +1,46 @@
 import './filter.css'
-import { useState,useRef, useEffect } from 'react'
+import { useState,useRef, useEffect,useContext} from 'react'
 import { useClickaway } from '../utils/useClickaway'
 import type { SetStateAction,Dispatch } from "react"
-
+import { Context } from '../utils/ContextProvider'
 
 export default function Filter({setSort}:{setSort:Dispatch<SetStateAction<string>>}){
     const [selected,setSelected] = useState<string>("recently added")
     const [open,setOpen] = useState<boolean>(false)
+    const [selectedText,setText] = useState<string>('All bookmarks')
     const btnRef = useRef<any>(null)
     const filtersRef = useRef<any>(null)
+    const context = useContext(Context)
+
+
+    useEffect(()=>{
+        if(context?.itemsHolder === 'archived'){
+            setText('Archived bookmarks')
+        }else{
+            if(context!.filterTags.length > 0){
+                setText(`Bookmarks tagged:${context?.filterTags.join(',')}`)
+                return
+            }
+            setText("All bookmarks")
+        }
+    },[context?.itemsHolder,context?.filterTags])
+
+
+
 
     useEffect(()=>{
         setSort(selected)
     },[selected])
+    
+
+
 
 
     useClickaway(filtersRef,()=>{setOpen(false)},btnRef)
 
     return (
         <div className="filter">
-            <h1>All bookmarks</h1>
+            <h1>{selectedText}</h1>
             <button ref={btnRef} className="filterBtn" onClick={()=>{setOpen(!open)}} >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path stroke="#051513" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M14.167 3.333v13.334m0 0-3.334-3.334m3.334 3.334 3.333-3.334M5.833 16.667V3.333m0 0L2.5 6.667m3.333-3.334 3.334 3.334"/></svg>
                 sort by
