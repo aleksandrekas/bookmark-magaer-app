@@ -14,16 +14,20 @@ export default function Filter({setSort}:{setSort:Dispatch<SetStateAction<string
 
 
     useEffect(()=>{
-        if(context?.itemsHolder === 'archived'){
-            setText('Archived bookmarks')
+        if(context?.searchbar !== ''){
+            setText(`Showing results for: ${context?.searchbar}`)
         }else{
-            if(context!.filterTags.length > 0){
-                setText(`Bookmarks tagged:${context?.filterTags.join(',')}`)
-                return
+            if(context?.itemsHolder === 'archived'){
+                setText('Archived bookmarks')
+            }else{
+                if(context!.filterTags.length > 0){
+                    setText(`Bookmarks tagged:${context?.filterTags.join(',')}`)
+                    return
+                }
+                setText("All bookmarks")
             }
-            setText("All bookmarks")
         }
-    },[context?.itemsHolder,context?.filterTags])
+    },[context?.itemsHolder,context?.filterTags,context?.searchbar])
 
 
 

@@ -35,10 +35,12 @@ export default function Header({sideBarSetter,settheme,theme}:{sideBarSetter:Rea
 
     useClickaway(profileRef,()=>{setProfile(false)},profileButtonRef)
 
- 
+    function handleSearchbar(e:React.ChangeEvent<HTMLInputElement>){
+        context?.setSearch(e.target.value)
+    }
 
 
-    return (
+    return ( 
         <header className='headerContainer'>
             <div className="left">
                 <button onClick={()=>{sideBarSetter(true)}} className="headerBtn">
@@ -46,7 +48,7 @@ export default function Header({sideBarSetter,settheme,theme}:{sideBarSetter:Rea
                 </button>
                 <div className="searchbar">
                     <img src="/images/icon-search.svg" alt="search_logo" className="searchLogo" />
-                    <input type="text" placeholder='Search by title...'/>
+                    <input type="text" placeholder='Search by title...' onChange={handleSearchbar} />
                 </div>
             </div>
             <div className="right">

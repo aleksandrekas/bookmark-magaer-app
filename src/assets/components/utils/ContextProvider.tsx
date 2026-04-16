@@ -25,6 +25,8 @@ type ContextType = {
   setDelete:Dispatch<SetStateAction<DeleteType>>
   filterTags:string[]
   setFilterTags:Dispatch<SetStateAction<string[]>>
+  searchbar:string
+  setSearch:Dispatch<SetStateAction<string>>
 }
 
 type UserType = {
@@ -84,11 +86,11 @@ export default function ContextProvider({ children }:{ children:ReactNode }){
     })
 
     const [filterTags,setFilterTags] = useState<string[]>([])
-
+    const [searchbar,setSearch] = useState<string>('')
 
     const [itemsHolder,setHolder] = useState('home')
     return (
-        <Context.Provider value={{addBookmarkWindow,setBookmarkWindow,user,setUser,bookmarks,setBookmarks,refresh,setRefresh,editTargetBookmark,setEditBookmark,editWindow,setEdit,archive,setArchive,itemsHolder,setHolder,deleteWindow,setDelete,filterTags,setFilterTags}}>
+        <Context.Provider value={{addBookmarkWindow,setBookmarkWindow,user,setUser,bookmarks,setBookmarks,refresh,setRefresh,editTargetBookmark,setEditBookmark,editWindow,setEdit,archive,setArchive,itemsHolder,setHolder,deleteWindow,setDelete,filterTags,setFilterTags,searchbar,setSearch}}>
             {children}
         </Context.Provider>
     )

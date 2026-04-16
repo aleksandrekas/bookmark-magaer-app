@@ -70,17 +70,32 @@ export default function itemsHolder({sort}:{sort:string}){
             window.removeEventListener('resize',adjustHeight)
         }
     },[])
-    
-    useEffect(()=>{
+
+
+    function bookmarkSetup(){
         let activeBookmarks = context?.bookmarks.filter((item) => item.archived === 0) ?? []
         let archivedBookmarks = context?.bookmarks.filter((item) => item.archived === 1) ?? []
-
-        setBookmarks({
-            bookmarks:filterByTags(sortBookmarks(activeBookmarks,sort) || []),
-            archived:archivedBookmarks
-        })
-    },[context?.bookmarks,sort,context?.filterTags])
+        if(context?.searchbar !== ''){
+            setBookmarks({
+                bookmarks: activeBookmarks.filter((item)=> item.title.toLowerCase().startsWith(context!.searchbar.toLowerCase())),
+                archived:archivedBookmarks
+            })            
+        }else{
+            setBookmarks({
+                bookmarks:filterByTags(sortBookmarks(activeBookmarks,sort) || []),
+                archived:archivedBookmarks
+            })
+        }
     
+    }
+
+    
+    useEffect(()=>{
+        bookmarkSetup()
+    },[context?.bookmarks,sort,context?.filterTags,context?.searchbar]) 
+    
+
+
 
     useEffect(()=>{
         console.log(context?.filterTags)
