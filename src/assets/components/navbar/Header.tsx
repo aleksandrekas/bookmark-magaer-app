@@ -57,12 +57,12 @@ export default function Header({sideBarSetter,settheme,theme}:{sideBarSetter:Rea
                     <p>Add Bookmark</p>
                 </button>
                 <div onClick={()=>{setProfile(!profile)}} ref={profileButtonRef} className="avatar">
-                    <img className='avatarImg' src="/images/logos/image-avatar.webp" alt="" />
+                    <div className='avatarImg'>{context?.user?.userName?.[0]?.toUpperCase()}</div>
                 </div>
             </div>
             <div className="profile" style={{display: profile ? 'block' : 'none'}} ref={profileRef}>
                 <div className="account">
-                    <img src="/images/logos/image-avatar.webp" alt="" />
+                    <div className='avatarImg'>{context?.user?.userName?.[0]?.toUpperCase()}</div>
                     <div className="info">
                         <h4>{context?.user.userName}</h4>
                         <p>{context?.user.userEmail}</p>

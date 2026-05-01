@@ -1,6 +1,8 @@
 import './login.css'
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { useNavigate } from 'react-router'
+import { Context } from '../utils/ContextProvider'
+import fetchWithAuth from '../utils/functions'
 
 
 type login={
@@ -11,7 +13,8 @@ type login={
 
 
 export default function Login(){
-    const [selected,setSelected] = useState('login')
+    const [selected,setSelected] = useState<string>('login')
+
     return (
         <section className="loginSection">
             <div className="loginContainer">
@@ -36,8 +39,12 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
         email:false,
         password:false
     })
+    const [loading,setLoading] = useState<boolean>(false)
 
     const navigate = useNavigate()
+    const context = useContext(Context)
+
+
 
     function handleForm(e:React.ChangeEvent<HTMLInputElement>){
         e.preventDefault()
@@ -68,28 +75,43 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
         const isValid = validate()
 
         if(!isValid) return 
-        
-        const response = await fetch('http://localhost:3000/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-            email: data.email,
-            password: data.password,
-            }),
-            credentials:"include"
-        });
+        setLoading(true)
+        try{
 
-        const result = await response.json();
-        if(result.token){
-            try{
-                localStorage.setItem("token",result.token) 
-                navigate("/profile")
-            }catch(err){
-                console.log(err)
-            }
-        }   
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                email: data.email,
+                password: data.password,
+                }),
+                credentials:"include"
+            });
+    
+            const result = await response.json();
+            if(result.token){
+                try{
+                    console.log(result.user)
+                    const {email,id,name} = result.user
+                    localStorage.setItem("token",result.token) 
+                    context?.setUser({
+                        userId:id,
+                        userEmail:email,
+                        userName:name
+                    })
+                    localStorage.setItem('userId',id)
+                    navigate("/profile")
+                }catch(err){
+                    console.log(err)
+                }
+            }   
+        }catch(err){
+
+        }finally{
+            setLoading(false)
+        }
     }
 
 
@@ -123,7 +145,7 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
                 value={data.password}
                 />
                 <span style={{visibility: errors.password ? "visible" : "hidden"}} className='errorspan'>* password field is empty</span>
-                <button  className='formBtn'>Log in</button>
+                <button  className={`formBtn ${loading ? 'waiting':''}`}>{`${loading ? 'Logging in...':'Log in'}`}</button>
             </form>
             <footer className="footer">
                 <p className='footerP'>Forgot password?
@@ -173,7 +195,7 @@ function Create({state,setter}:{state:string,setter:React.Dispatch<React.SetStat
         console.log(result);
     }
 
-    console.log(data)
+    // console.log(data)
 
 
     return(

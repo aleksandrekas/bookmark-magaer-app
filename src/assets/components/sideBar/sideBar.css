@@ -61,7 +61,7 @@
 }
 
 .sidebarBtn:hover svg path {
-    stroke: #051513;
+    stroke: var(--txt-color-2);
 }
 
 
@@ -74,6 +74,10 @@
     cursor: pointer;
 }
 
+
+.sideTags{
+    overflow-y: auto;
+}
 
 .sideTags .label{
     font-size: 12px;

@@ -104,9 +104,26 @@
     height: 40px;
 }
 
+.avatarImg{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border:1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: 900;
+    color: var(--txt-color-2);
+    padding-bottom: 0.2rem;
+}
 
-
-
+.account .avatarImg{
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+    margin-right: 1rem;
+}
 
 .profile{
     position: absolute;

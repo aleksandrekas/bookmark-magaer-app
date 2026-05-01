@@ -48,7 +48,7 @@ export default function itemsHolder({sort}:{sort:string}){
 
     function filterByTags(bookmarks:BookmarkType[]){
         if(context?.filterTags.length === 0){
-            return bookmarks
+            return pinTags(bookmarks)
         }
         return pinTags(bookmarks.filter((item)=>item.tags.some(tag => context?.filterTags.includes(tag))))
 
@@ -98,7 +98,7 @@ export default function itemsHolder({sort}:{sort:string}){
 
 
     useEffect(()=>{
-        console.log(context?.filterTags)
+        // console.log(context?.filterTags)
     },[context?.filterTags])
 
     const ishome = context?.itemsHolder === 'home'

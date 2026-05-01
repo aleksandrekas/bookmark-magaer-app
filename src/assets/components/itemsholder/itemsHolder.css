@@ -5,7 +5,9 @@
     overflow-y: auto;
     width: 100%;
     flex-wrap: wrap;
-    padding: 1rem;
+    padding: 0 1rem;
+    container-type: inline-size;
+
 }
 
 .itemHolder::-webkit-scrollbar{
