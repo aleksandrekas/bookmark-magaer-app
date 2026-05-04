@@ -50,6 +50,7 @@
 
 .container h1{
     font-size: 1.5rem;
+    color: var(--txt-color-2);
 }
 
 .container p{
@@ -67,7 +68,7 @@
 
 
 .formLabel{
-    color: var(--txt-color);
+    color: var(--txt-color-2);
     font-size: 0.8rem;
     margin: 0.7rem 0;
     font-weight: 600;
@@ -79,6 +80,8 @@
     width: 100%;
     border-radius: 8px;
     border: 1px solid var(--border) ;
+    background-color: var(--input);
+    color: var(--txt-color-2);
     outline: none;
     padding: 0 1rem;
     font-size: 16px;
@@ -120,6 +123,7 @@
     margin: 0 0.5rem;
     font-weight: 700;
     cursor: pointer;
+    color: var(--txt-color);
 }
 
 

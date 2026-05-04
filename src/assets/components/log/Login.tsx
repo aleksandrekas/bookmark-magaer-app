@@ -2,7 +2,6 @@ import './login.css'
 import React, { useState,useContext } from 'react'
 import { useNavigate } from 'react-router'
 import { Context } from '../utils/ContextProvider'
-import fetchWithAuth from '../utils/functions'
 
 
 type login={
@@ -14,11 +13,12 @@ type login={
 
 export default function Login(){
     const [selected,setSelected] = useState<string>('login')
+    const context = useContext(Context)
 
     return (
         <section className="loginSection">
             <div className="loginContainer">
-                <img src="public/images/logo-light-theme.svg" alt="" className="bookmarkLogo" />
+                <img src={ context?.theme === 'light' ? "/images/logo-light-theme.svg" : "/images/logo-dark-theme.svg"} alt="logo" className="bookmarkLogo" />
                 <Log state={selected} setter={setSelected} />
                 <Create state={selected} setter={setSelected} />
                 <ResetPassword state={selected} setter={setSelected} />
@@ -31,13 +31,15 @@ export default function Login(){
 
 function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAction<string>>}){
     const [data,setData] = useState<login>({
-        email:'',
+        email:'', 
         password:'',
     })
 
     const [errors,setErrors] = useState({
         email:false,
-        password:false
+        emailError:'',
+        password:false,
+        passwordError:''
     })
     const [loading,setLoading] = useState<boolean>(false)
 
@@ -60,7 +62,9 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
         const emailRregex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const newErrors = {
             email: data.email === '' || !emailRregex.test(data.email),
-            password: data.password === ''
+            emailError:data.email === '' ? "email is empty":"invalid email",
+            password: data.password === '',
+            passwordError:"password is empty"
         }
         setErrors(newErrors)
         return !newErrors.email && !newErrors.password;
@@ -77,7 +81,6 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
         if(!isValid) return 
         setLoading(true)
         try{
-
             const response = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
                 headers: {
@@ -90,7 +93,18 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
                 credentials:"include"
             });
     
+
+            
             const result = await response.json();
+            if(!response.ok){
+                if(result.error = "email error"){
+                    setErrors((prev)=>({
+                        ...prev,
+                        email:true,
+                        emailError:"provided email is not registered"
+                    }))
+                }
+            }
             if(result.token){
                 try{
                     console.log(result.user)
@@ -108,7 +122,7 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
                 }
             }   
         }catch(err){
-
+            console.log('network error')
         }finally{
             setLoading(false)
         }
@@ -134,7 +148,7 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
                 name='email' 
                 value={data.email}
                 />
-                <span style={{visibility: errors.email ? "visible" : "hidden"}} className="errorspan">* wrong email</span>
+                <span style={{visibility: errors.email ? "visible" : "hidden"}} className="errorspan">* {errors.emailError}</span>
                 <label htmlFor="password" className='formLabel'>Password</label>
                 <input 
                 onChange={handleForm} 
@@ -144,7 +158,7 @@ function Log({state,setter}:{state:string,setter:React.Dispatch<React.SetStateAc
                 name='password' 
                 value={data.password}
                 />
-                <span style={{visibility: errors.password ? "visible" : "hidden"}} className='errorspan'>* password field is empty</span>
+                <span style={{visibility: errors.password ? "visible" : "hidden"}} className='errorspan'>* {errors.passwordError}</span>
                 <button  className={`formBtn ${loading ? 'waiting':''}`}>{`${loading ? 'Logging in...':'Log in'}`}</button>
             </form>
             <footer className="footer">

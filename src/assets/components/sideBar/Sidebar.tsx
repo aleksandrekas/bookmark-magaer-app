@@ -3,7 +3,6 @@ import './sideBar.css';
 import { useClickaway } from '../utils/useClickaway';
 import { useContext } from 'react';
 import { Context } from '../utils/ContextProvider';
-import type { Dispatch,SetStateAction } from 'react';
 
 type Tag = {
   name: string;
@@ -75,7 +74,7 @@ export default function SideBar({state,stateSetter,theme}:{state:boolean,stateSe
     return(
         <div  className={state ? 'sideContainer sidebarActive' : 'sideContainer'} ref={ref}>
             <section className="sidebar">
-                <img src={ theme === 'light' ? "/images/logo-light-theme.svg" : "/images/logo-dark-theme.svg"} alt="logo" className="sidebarLogo" />
+                <img src={ context?.theme === 'light' ? "/images/logo-light-theme.svg" : "/images/logo-dark-theme.svg"} alt="logo" className="sidebarLogo" />
                 <button  onClick={()=>{
                     setBookmark('home')
                     context?.setHolder('home')

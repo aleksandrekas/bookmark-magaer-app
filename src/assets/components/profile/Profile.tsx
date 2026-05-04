@@ -64,8 +64,6 @@ export default function Profile() {
             <div className="profileContent">
                 <Header
                     sideBarSetter={setSidebar}
-                    theme={theme}
-                    settheme={setTheme}
                 />
 
                 <Filter setSort={setSort} />
