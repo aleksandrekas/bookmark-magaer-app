@@ -87,9 +87,7 @@ export default function EditBookmark(){
 
 
 
-    function getCurrentDate(){
-        return new Date().toISOString()
-    }
+
 
     function handleTextarea(e:React.ChangeEvent<HTMLTextAreaElement>){
         setCount(e.target.value.length)
@@ -188,16 +186,21 @@ export default function EditBookmark(){
                 <form  className="addForm" onSubmit={addbookmark}>
                     <label htmlFor="title">Title *</label>
                     <input type="text" id='title' name='title' onChange={handleInputs} value={values.title} />
+                    <span style={{visibility: errors.title ? "visible" : "hidden"}} className="errorspan">* title is empty</span>
                     <label htmlFor="description">Description *</label>
                     <textarea onChange={handleTextarea} id="description" name='description' value={values.description} ></textarea>
+                    
                     <div className="textareaCount">
+                        <span style={{visibility: errors.description ? "visible" : "hidden"}} className="errorspan">* description is empty</span>
                         {letterCount}/280
                     </div>
                     <label htmlFor="url">Website URL *</label>
                     <input type="text" id='url' name='url' onChange={handleInputs} value={values.url} />
+                    <span style={{visibility: errors.title ? "visible" : "hidden"}} className="errorspan">* enter the title</span>
                     <div className="tag">
                         <label className='tagLabel' htmlFor="tags">Tags *</label>
                         <input type="text" id='tags' name='tags' onChange={handleTags} value={tag}  onBlur={()=>{setShow(false)}} />
+                        <span style={{visibility: errors.tags ? "visible" : "hidden"}} className="errorspan">* select tags</span>
                         <div className="selectedTags">
                             {values.selectedTags.map((tag,index)=>(
                                 <div onClick={()=>{removeTag(tag)}} key={index} className="selectedTag">{tag}</div>

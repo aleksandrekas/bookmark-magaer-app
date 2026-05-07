@@ -249,8 +249,9 @@ export default function AddBookmark(){
                     <span style={{visibility: errors.title ? "visible" : "hidden"}} className="errorspan">* enter the title</span>
                     <label htmlFor="description">Description *</label>
                     <textarea onChange={handleTextarea} id="description" name='description' value={values.description} ></textarea>
-                    <span style={{visibility: errors.description ? "visible" : "hidden"}} className="errorspan">* enter description</span>
+
                     <div className="textareaCount">
+                        <span style={{visibility: errors.description ? "visible" : "hidden"}} className="errorspan">*      enter description</span>                        
                         {letterCount}/200
                     </div>
                     <label htmlFor="url">Website URL *</label>
