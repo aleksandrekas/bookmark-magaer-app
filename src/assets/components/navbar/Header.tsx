@@ -17,11 +17,6 @@ export default function Header({sideBarSetter}:{sideBarSetter:React.Dispatch<Rea
 
 
     function toggleTheme(){
-        // if(theme === 'light'){
-        //     context?.setTheme('dark')
-        // }else{ 
-        //     context?.setTheme('light')
-        // }
         context?.theme === 'light' ? context?.setTheme('dark') : context?.setTheme('light')
     }
 

@@ -18,11 +18,8 @@ export default async function fetchWithAuth(
 
   console.log(response.status)
 
-
-
-
-  if (response.status === 204) {
-    return null;
+  if (response.status === 500) {
+    return "internal server error";
   }
 
   const resResult = await response.json();

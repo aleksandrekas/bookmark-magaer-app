@@ -120,6 +120,7 @@
     border-radius: 8px;
     border: 1px solid var(--border);
     background-color: var(--bg-color-2);
+    cursor: pointer;
 }
 
 #addButton{
@@ -128,6 +129,13 @@
     color: #FFFFFF;
     border: none;
 }
+
+
+.waiting{
+    background-color: #a7a7a7 !important;
+}
+
+
 
 
 .tag{
@@ -182,8 +190,45 @@
     border-radius: 6px;
     cursor: pointer;
     color: var(--txt-color);
+    height: 32px;
 }
 
 .selectedTags{
     display: flex;
+    height: 32px;
+}
+
+
+
+.action_result_div{
+    max-width: 500px;
+    width: 100%;
+    min-height: 150px;
+    background-color: var(--bg-color-2);
+    border-radius: 8px;
+    padding: 1rem;
+    display: none;
+    justify-content: space-between;
+    align-items: end;
+    flex-direction: column;
+}
+
+
+.action_result_div button{
+    height: 40px;
+    width: 70px;
+    padding: 0.5rem 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background-color: var(--button);
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+
+.action_result_div p{
+    width: 100%;
 }

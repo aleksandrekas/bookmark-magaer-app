@@ -1,7 +1,8 @@
 import React, { useState,useContext} from 'react'
 import './addBookmark.css'
 import { Context } from '../utils/ContextProvider'
-import fetchWithAuth from '../utils/functions'
+import { useNavigate } from 'react-router'
+
 
 type Inputs ={
     title:string
@@ -22,7 +23,7 @@ type Errors ={
 export default function AddBookmark(){
     const tagsarray = ['AI','Community','Compability','CSS','Design','Framework','Git','HTML','JavaScript','Layout','Learning','Performance','Practice','Reference','Tips','Tools','Tutorial']
 
-
+    const navigate = useNavigate()
     
     const [values,setValues] = useState<Inputs>({
         title:'',
@@ -31,7 +32,9 @@ export default function AddBookmark(){
         tags:tagsarray,
         selectedTags:[]
     })
-
+    const [openResultDiv,setOpenResultDiv] = useState<boolean>(false)
+    const [loading,setLoading] = useState<boolean>(false)
+    const [reqResult,setResult] = useState<string>('')
 
     const [errors ,setErrors] = useState<Errors>({
         title:false,
@@ -53,10 +56,10 @@ export default function AddBookmark(){
 
     function validate(){
         const newErrors={
-            title:values.title.length ===0,
-            description:values.description.length ===0,
-            url:values.url.length ===0,
-            tags:values.tags.length ===0
+            title:values.title.length === 0,
+            description:values.description.length === 0,
+            url:values.url.length === 0,
+            tags:values.selectedTags.length === 0
         }
 
         setErrors(newErrors)
@@ -151,19 +154,35 @@ export default function AddBookmark(){
         }))
     }
 
+
+
+    function closeResultDiv(){
+        setOpenResultDiv(false)
+        context?.setBookmarkWindow(false)
+        clearForm()        
+        if(reqResult === "something went wrong,Login again"){
+            navigate('/')
+        }
+    }
+
+
+
+
     async function addbookmark(e:React.FormEvent){
         e.preventDefault()
-        
+        setLoading(true)
         const isVlaid = validate()
 
         if(!isVlaid) return 
 
         const {title,url,description,selectedTags} = values;
+        const token = localStorage.getItem('token')
         try{
-            const addRequest = await  fetchWithAuth('http://localhost:3000/api/addBookmark',{
-                method:"POST",
+            const addRequest = await fetch('http://localhost:3000/api/addBookmark',{
+                method:'POST',
                 headers:{
-                    'Content-Type':'application/json'
+                    'content-type':'application/json',
+                    Authorization:`Bearer ${token}` 
                 },
                 body:JSON.stringify({
                     title:title,
@@ -177,11 +196,35 @@ export default function AddBookmark(){
                     pinned:0
                 })
             })
-            context?.setRefresh(!context.refresh)
-        }catch(err){
-            console.log("gela is awake")
-            console.log(err)
+
+            const response = await addRequest.json()
+
+            if(addRequest.status === 201 && response.message === 'created'){
+                setResult("Bookmark added")
+                setOpenResultDiv(true)
+            }
+
+            if(addRequest.status ===500){
+                setResult('Failed to add Bookmark.Try again later')
+                setOpenResultDiv(true)
+            }
+
+            if(addRequest.status === 401){
+                setResult("something went wrong,Login again")
+                setOpenResultDiv(true)
+
+            }
+        }catch(error){
+            console.log(error)
+        }finally{
+            setLoading(false)
         }
+
+
+
+
+
+        context?.setRefresh(!context.refresh)
     }   
 
 
@@ -189,7 +232,7 @@ export default function AddBookmark(){
 
     return (
         <div className="addOverlay" style={{display: context?.addBookmarkWindow ? "flex":"none"}}>
-            <div className="add">
+            <div className="add" style={{display:!openResultDiv  ? 'block':'none'}}>
                 <button className="closeBtn" 
                 onClick={()=>{
                     context?.setBookmarkWindow(false)
@@ -236,9 +279,13 @@ export default function AddBookmark(){
                             context?.setBookmarkWindow(false)
                             clearForm()
                         }} type='button' >Cancel</button>
-                        <button id='addButton'>Add Bookmark</button>
+                        <button   id='addButton' className={loading ? 'waiting' : ''}  >Add Bookmark</button>
                     </div>
                 </form>
+            </div>
+            <div  style={{display:!openResultDiv  ? 'none':'flex'}} className="action_result_div">
+                <p>{reqResult}</p>
+                <button onClick={closeResultDiv}>Close</button>
             </div>
         </div>
     )
