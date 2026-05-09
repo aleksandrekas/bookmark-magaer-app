@@ -2,7 +2,6 @@ import "./linkItem.css"
 import { useRef, useState,useContext } from "react"
 import { useClickaway } from "../utils/useClickaway"
 import { Context } from "../utils/ContextProvider"
-import fetchWithAuth from "../utils/functions"
 import type { BookmarkType } from "../utils/types"
 
 
@@ -111,17 +110,32 @@ export default function LinkItem({bookmark}:{bookmark:BookmarkType}){
     
     
     async function handlebookmark(params:UpdateParams){
+        const token = localStorage.getItem('token')
         try{
-            const visitRequest = await  fetchWithAuth('http://localhost:3000/api/edit',{
-                method:"PATCH",
+            // const visitRequest = await  fetchWithAuth('http://localhost:3000/api/edit',{
+            //     method:"PATCH",
+            //     headers:{
+            //         'Content-Type':'application/json'
+            //     },
+            //     body:JSON.stringify({
+            //         ...params
+            //     })
+            // })
+            const visitRequest = await fetch('http://localhost:3000/api/edit',{
+                method:'PATCH',
                 headers:{
-                    'Content-Type':'application/json'
+                    'Content-Type':'application/json',
+                    Authorization:`Bearer ${token}`
                 },
                 body:JSON.stringify({
                     ...params
                 })
             })
-            
+
+            if(!visitRequest.ok){
+                console.log("coud not set request")
+            }
+
             context?.setRefresh(!context.refresh)
         }catch(err){
             console.log(err)

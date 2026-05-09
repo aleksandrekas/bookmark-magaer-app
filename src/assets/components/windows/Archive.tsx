@@ -1,7 +1,7 @@
 import './windows.css';
 import { useContext } from 'react';
 import { Context } from '../utils/ContextProvider';
-import fetchWithAuth from '../utils/functions';
+
 
 
 
@@ -17,18 +17,21 @@ export default function Archive(){
     }
 
     async function archiveBookmark(){
-
+        const token = localStorage.getItem('token')
         try{
-            const archiveRequest = await  fetchWithAuth('http://localhost:3000/api/edit',{
-                method:"PATCH",
+
+            const archiveRequest = await fetch('http://localhost:3000/api/edit',{
+                method:'PATCH',
                 headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({
-                    archived:context?.archive.archived === 1 ? 0 : 1,
-                    id:context?.archive.bookmarkId
-                })
+                    'Content-Type':'application/json',
+                    Authorization:`Bearer ${token}`
+                }
             })
+
+            if(archiveRequest.ok){
+                console.log('archived')
+            }
+
             context?.setRefresh(prev => !prev)
             closeWindow()
         }catch(err){

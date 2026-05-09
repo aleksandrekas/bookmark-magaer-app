@@ -148,7 +148,9 @@
     top: 15px;
     right: 15px;
 }
-
+.hideBar svg path{
+    stroke: var(--txt-color-2);
+}
 
 .hideBar img{
     width: 20px;

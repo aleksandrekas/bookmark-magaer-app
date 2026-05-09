@@ -1,5 +1,4 @@
-import './windows.css';
-import fetchWithAuth from '../utils/functions';
+import './windows.css'; 
 import { Context } from '../utils/ContextProvider';
 import { useContext } from 'react';
 
@@ -20,17 +19,22 @@ export default function Delete(){
 
 
     async function deleteBookmark(){
-
+        const token = localStorage.getItem('token')
         try{
-            const deleteRequest = await  fetchWithAuth('http://localhost:3000/api/delete',{
-                method:"DELETE",
+
+
+            const deleteRequest = await fetch('http://localhost:3000/api/delete',{
+                method:'DELETE',
                 headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({
-                    id:context?.deleteWindow.bookmarkId
-                })
+                    'Content-Type':'application/json',
+                    Authorization:`Bearer ${token}`
+                }
             })
+
+            if(deleteRequest.ok){
+                console.log("delete succesfull")
+            }
+
             context?.setRefresh(prev => !prev)
             handleClose()
         }catch(err){
