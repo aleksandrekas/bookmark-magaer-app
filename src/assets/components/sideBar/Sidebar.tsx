@@ -11,7 +11,7 @@ type Tag = {
 
 
 
-export default function SideBar({state,stateSetter,theme}:{state:boolean,stateSetter:React.Dispatch<React.SetStateAction<boolean>>,theme:string}){
+export default function SideBar({state,stateSetter}:{state:boolean,stateSetter:React.Dispatch<React.SetStateAction<boolean>>}){
     const [bookamrkSelection,setBookmark] = useState<string>('home')
     const [checkedTags,setTags] = useState<string[]>([])
     const [tagArray,setArray] = useState<Tag[]>([

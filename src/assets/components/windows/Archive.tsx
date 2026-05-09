@@ -1,5 +1,4 @@
 import './windows.css';
-import { useClickaway } from '../utils/useClickaway';
 import { useContext } from 'react';
 import { Context } from '../utils/ContextProvider';
 import fetchWithAuth from '../utils/functions';

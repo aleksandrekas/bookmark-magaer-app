@@ -1,5 +1,5 @@
 import './header.css'
-import { useEffect, useRef, useState,useContext, type Dispatch } from 'react'
+import { useEffect, useRef, useState,useContext } from 'react'
 import { useClickaway } from '../utils/useClickaway'
 import { Context } from '../utils/ContextProvider'
 import { useNavigate } from 'react-router'

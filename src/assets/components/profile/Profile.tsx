@@ -20,7 +20,6 @@ export default function Profile() {
 
     const [sidebarState, setSidebar] = useState(false)
     const [sort, setSort] = useState("recently added")
-    const [theme, setTheme] = useState("light")
 
     
 
@@ -59,7 +58,7 @@ export default function Profile() {
 
     return (
         <div className="profileContainer">
-            <SideBar state={sidebarState} stateSetter={setSidebar} theme={theme} />
+            <SideBar state={sidebarState} stateSetter={setSidebar} />
 
             <div className="profileContent">
                 <Header
