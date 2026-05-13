@@ -20,7 +20,7 @@ export default function Archive(){
         const token = localStorage.getItem('token')
         try{
 
-            const archiveRequest = await fetch('http://localhost:3000/api/edit',{
+            const archiveRequest = await fetch('https://bookmark-manager-backend-7r1a.onrender.com/api/edit',{
                 method:'PATCH',
                 headers:{
                     'Content-Type':'application/json',

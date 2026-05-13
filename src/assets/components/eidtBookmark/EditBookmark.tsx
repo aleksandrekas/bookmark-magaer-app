@@ -140,7 +140,7 @@ export default function EditBookmark(){
 
         const {title,url,description,selectedTags} = values;
         try{
-            const addRequest = await  fetchWithAuth('http://localhost:3000/api/editBookmark',{
+            const addRequest = await  fetchWithAuth('https://bookmark-manager-backend-7r1a.onrender.com/api/editBookmark',{
                 method:"PATCH",
                 headers:{
                     'Content-Type':'application/json'

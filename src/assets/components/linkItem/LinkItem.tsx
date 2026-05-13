@@ -112,16 +112,7 @@ export default function LinkItem({bookmark}:{bookmark:BookmarkType}){
     async function handlebookmark(params:UpdateParams){
         const token = localStorage.getItem('token')
         try{
-            // const visitRequest = await  fetchWithAuth('http://localhost:3000/api/edit',{
-            //     method:"PATCH",
-            //     headers:{
-            //         'Content-Type':'application/json'
-            //     },
-            //     body:JSON.stringify({
-            //         ...params
-            //     })
-            // })
-            const visitRequest = await fetch('http://localhost:3000/api/edit',{
+            const visitRequest = await fetch('https://bookmark-manager-backend-7r1a.onrender.com/api/edit',{
                 method:'PATCH',
                 headers:{
                     'Content-Type':'application/json',

@@ -97,9 +97,7 @@ export default function itemsHolder({sort}:{sort:string}){
 
 
 
-    useEffect(()=>{
-        // console.log(context?.filterTags)
-    },[context?.filterTags])
+
 
     const ishome = context?.itemsHolder === 'home'
     const currentBookmarks = ishome ? bookmark.bookmarks : bookmark.archived

@@ -25,7 +25,7 @@ export default function Profile() {
 
     async function fetchData(){
         try{
-            const data = await fetchWithAuth("http://localhost:3000/api/bookmarks",{
+            const data = await fetchWithAuth("https://bookmark-manager-backend-7r1a.onrender.com/api/bookmarks",{
                 method:"GET"
             })
             

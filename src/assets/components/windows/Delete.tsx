@@ -23,7 +23,7 @@ export default function Delete(){
         try{
 
 
-            const deleteRequest = await fetch('http://localhost:3000/api/delete',{
+            const deleteRequest = await fetch('https://bookmark-manager-backend-7r1a.onrender.com/api/delete',{
                 method:'DELETE',
                 headers:{
                     'Content-Type':'application/json',

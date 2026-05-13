@@ -178,7 +178,7 @@ export default function AddBookmark(){
         const {title,url,description,selectedTags} = values;
         const token = localStorage.getItem('token')
         try{
-            const addRequest = await fetch('http://localhost:3000/api/addBookmark',{
+            const addRequest = await fetch('https://bookmark-manager-backend-7r1a.onrender.com/api/addBookmark',{
                 method:'POST',
                 headers:{
                     'content-type':'application/json',
