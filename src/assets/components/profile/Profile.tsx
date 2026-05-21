@@ -30,12 +30,19 @@ export default function Profile() {
             })
             
             const {userEmail,userId,userName,res} = data
+            
             context?.setUser({
                 userEmail:userEmail,
                 userId:userId,
                 userName:userName
             })
-            context?.setBookmarks(res)
+
+            if(res){
+                context?.setBookmarks(res)
+            }else{
+                context?.setBookmarks([])
+            }
+
         }catch(err){
             navigate('/')
         }
