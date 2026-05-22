@@ -1,7 +1,7 @@
 import './windows.css'; 
 import { Context } from '../utils/ContextProvider';
 import { useContext } from 'react';
-
+import request from '../utils/functions';
 
 export default function Delete(){
     const context = useContext(Context)
@@ -19,17 +19,19 @@ export default function Delete(){
 
 
     async function deleteBookmark(){
-        const token = localStorage.getItem('token')
         try{
 
 
-            const deleteRequest = await fetch('https://bookmark-manager-backend-7r1a.onrender.com/api/delete',{
+            const deleteRequest = await request('api/delete',{
                 method:'DELETE',
                 headers:{
                     'Content-Type':'application/json',
-                    Authorization:`Bearer ${token}`
                 }
             })
+
+
+
+
 
             if(deleteRequest.ok){
                 console.log("delete succesfull")

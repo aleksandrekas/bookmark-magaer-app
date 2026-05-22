@@ -10,7 +10,7 @@ import { Context } from "../utils/ContextProvider"
 import { useNavigate } from "react-router"
 import Archive from "../windows/Archive"
 import Delete from "../windows/Delete"
-import fetchWithAuth from "../utils/functions"
+import request from "../utils/functions"
 
 
 
@@ -25,7 +25,7 @@ export default function Profile() {
 
     async function fetchData(){
         try{
-            const data = await fetchWithAuth("https://bookmark-manager-backend-7r1a.onrender.com/api/bookmarks",{
+            const data = await request("api/bookmarks",{
                 method:"GET"
             })
             

@@ -2,7 +2,7 @@ import React, { useState,useContext} from 'react'
 import './addBookmark.css'
 import { Context } from '../utils/ContextProvider'
 import { useNavigate } from 'react-router'
-
+import request from '../utils/functions'
 
 type Inputs ={
     title:string
@@ -176,13 +176,30 @@ export default function AddBookmark(){
         if(!isVlaid) return 
 
         const {title,url,description,selectedTags} = values;
-        const token = localStorage.getItem('token')
         try{
-            const addRequest = await fetch('https://bookmark-manager-backend-7r1a.onrender.com/api/addBookmark',{
+            // const addRequest = await fetch('https://bookmark-manager-backend-7r1a.onrender.com/api/addBookmark',{
+            //     method:'POST',
+            //     headers:{
+            //         'content-type':'application/json',
+            //         Authorization:`Bearer ${token}` 
+            //     },
+            //     body:JSON.stringify({
+            //         title:title,
+            //         url:url,
+            //         description:description,
+            //         selectedtags:selectedTags,
+            //         archived:false,
+            //         created:getCurrentDate(),
+            //         visitCount:0,
+            //         lastVisit:"never",
+            //         pinned:0
+            //     })
+            // })
+
+            const addRequest = await request("api/addBookmark",{
                 method:'POST',
                 headers:{
-                    'content-type':'application/json',
-                    Authorization:`Bearer ${token}` 
+                    'content-type':'application/json'
                 },
                 body:JSON.stringify({
                     title:title,
@@ -196,6 +213,9 @@ export default function AddBookmark(){
                     pinned:0
                 })
             })
+
+
+
 
             const response = await addRequest.json()
 

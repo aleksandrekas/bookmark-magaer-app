@@ -1,7 +1,7 @@
 import React, { useState,useContext, useEffect} from 'react'
 import './edit.css'
 import { Context } from '../utils/ContextProvider'
-import fetchWithAuth from '../utils/functions'
+import request from '../utils/functions'
 
 type Inputs ={
     title:string
@@ -140,7 +140,7 @@ export default function EditBookmark(){
 
         const {title,url,description,selectedTags} = values;
         try{
-            const addRequest = await  fetchWithAuth('https://bookmark-manager-backend-7r1a.onrender.com/api/editBookmark',{
+            const addRequest = await  request('api/editBookmark',{
                 method:"PATCH",
                 headers:{
                     'Content-Type':'application/json'

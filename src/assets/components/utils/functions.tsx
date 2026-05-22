@@ -1,30 +1,17 @@
 
-
-export default async function fetchWithAuth(
-  url: string,
-  options: RequestInit = {},
-) {
-  console.log('initial route')
-  const token = localStorage.getItem("token");
-
-  const response = await fetch(url, {
+export default async function request(route:string,options: RequestInit = {}){
+  const token = localStorage.getItem("token")
+  const response = await fetch(`https://bookmark-manager-backend-7r1a.onrender.com/${route}`,{
     ...options,
-    headers: {
+    headers:{
       ...options.headers,
-      Authorization: `Bearer ${token}`,
+      authorization:`Bearer ${token}`
     },
-    credentials: "include",
+    credentials:"include",
   });
 
-  console.log(response.status)
-
-  if (response.status === 500) {
-    return "internal server error";
-  }
-
-  const resResult = await response.json();
-  return resResult;
+  
+  const result = await response.json()
+  
+  return result
 }
-
-
-

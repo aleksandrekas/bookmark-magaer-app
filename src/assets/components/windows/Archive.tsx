@@ -1,7 +1,7 @@
 import './windows.css';
 import { useContext } from 'react';
 import { Context } from '../utils/ContextProvider';
-
+import request from '../utils/functions';
 
 
 
@@ -17,14 +17,13 @@ export default function Archive(){
     }
 
     async function archiveBookmark(){
-        const token = localStorage.getItem('token')
         try{
 
-            const archiveRequest = await fetch('https://bookmark-manager-backend-7r1a.onrender.com/api/edit',{
+            const archiveRequest = await request('api/edit',{
                 method:'PATCH',
                 headers:{
                     'Content-Type':'application/json',
-                    Authorization:`Bearer ${token}`
+                    
                 }
             })
 
