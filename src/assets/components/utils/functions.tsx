@@ -9,9 +9,9 @@ export default async function request(route:string,options: RequestInit = {}){
     },
     credentials:"include",
   });
-
   
-  const result = await response.json()
   
-  return result
+  
+  
+  return response
 }

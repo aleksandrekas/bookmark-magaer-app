@@ -140,7 +140,7 @@ export default function EditBookmark(){
 
         const {title,url,description,selectedTags} = values;
         try{
-            const addRequest = await  request('api/editBookmark',{
+            const editRequest = await  request('api/editBookmark',{
                 method:"PATCH",
                 headers:{
                     'Content-Type':'application/json'
@@ -153,7 +153,7 @@ export default function EditBookmark(){
                     selectedtags:selectedTags,
                 })
             })
-            console.log(addRequest)
+            console.log(editRequest)
             context?.setRefresh(!context.refresh)
         }catch(err){
             console.log("gela is awake")

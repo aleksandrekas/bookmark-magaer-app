@@ -177,24 +177,7 @@ export default function AddBookmark(){
 
         const {title,url,description,selectedTags} = values;
         try{
-            // const addRequest = await fetch('https://bookmark-manager-backend-7r1a.onrender.com/api/addBookmark',{
-            //     method:'POST',
-            //     headers:{
-            //         'content-type':'application/json',
-            //         Authorization:`Bearer ${token}` 
-            //     },
-            //     body:JSON.stringify({
-            //         title:title,
-            //         url:url,
-            //         description:description,
-            //         selectedtags:selectedTags,
-            //         archived:false,
-            //         created:getCurrentDate(),
-            //         visitCount:0,
-            //         lastVisit:"never",
-            //         pinned:0
-            //     })
-            // })
+
 
             const addRequest = await request("api/addBookmark",{
                 method:'POST',

@@ -29,7 +29,11 @@ export default function Profile() {
                 method:"GET"
             })
             
-            const {userEmail,userId,userName,res} = data
+            const result = await data.json()
+
+
+
+            const {userEmail,userId,userName,res} = result
             
             context?.setUser({
                 userEmail:userEmail,
